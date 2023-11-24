@@ -7,4 +7,8 @@ SchedBus makes it easier to find the best bus routes to your workplaces, schools
 - When you have one or more of your planned times occur today, SchedBus will display the plans along with the number of trips available on the Home Page.
 - By tapping on a plan on the Home Page or Plan Page, it will direct you to the Trip List Page which displays all available trips based on your arrival time. You can choose to see the next trip coming by selecting the Leave Now button in the above bar.
 - SchedBus can show details of a selected trip including steps to take, bus arrival time, bus number, bus stop, and estimated arrival time at destination.
-## Components (Update Soon)
+## Components
+- [CommunityToolkit.Mvvm](https://www.nuget.org/packages/CommunityToolkit.Mvvm/8.2.2?_src=template)
+- [Microsoft.Maui.Controls.Maps](https://www.nuget.org/packages/Microsoft.Maui.Controls.Maps/8.0.3?_src=template)
+- [Google Maps APIs](https://developers.google.com/maps)
+- [Firebase](http://firebase.google.com/)
