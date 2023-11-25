@@ -3,13 +3,19 @@
     x:Class="SchedBus.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:SchedBus"
+    xmlns:local="clr-namespace:SchedBus.Pages"
     Shell.FlyoutBehavior="Disabled"
     Title="SchedBus">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <TabBar>
+        <Tab Title="Home"
+             Icon="home.png">
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}"/>
+        </Tab>
+        <Tab Title="Plans"
+             Icon="ballot.png">
+            <ShellContent ContentTemplate="{DataTemplate local:PlanPage}"/>
+        </Tab>
+    </TabBar>
+    
 </Shell>

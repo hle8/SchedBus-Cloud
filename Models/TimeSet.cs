@@ -2,6 +2,7 @@
 
 /* The TimeSet class represents each timeset for each plan
    * Property:
+   * - ID                | uniquely identify each timeset
    * - Hour              | user's input hour
    * - Minute            | user's input minute
    * - RepeatOnMonday    | is the set time repeated on Monday
@@ -14,8 +15,10 @@
    */
 public class TimeSet
 {
+    public Guid ID { get; set; }
     public uint Hour { get; set; }
     public uint Minute { get; set; }
+    public bool IsAM { get; set; }
     public bool RepeatOnMonday { get; set; }
     public bool RepeatOnTuesday { get; set; }
     public bool RepeatOnWednesday { get; set; }
