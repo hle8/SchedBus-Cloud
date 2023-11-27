@@ -9,7 +9,7 @@
  */
 public class Destination
 {
-	public Guid ID { get; set; }
+	public uint ID { get; set; }
 	public string? Name{ get; set; }
 	public double Longitude { get; set; }
 	public double Latitude { get; set; }
