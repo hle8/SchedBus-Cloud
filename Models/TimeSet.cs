@@ -15,7 +15,7 @@
    */
 public class TimeSet
 {
-    public Guid ID { get; set; }
+    public uint ID { get; set; }
     public uint Hour { get; set; }
     public uint Minute { get; set; }
     public bool IsAM { get; set; }

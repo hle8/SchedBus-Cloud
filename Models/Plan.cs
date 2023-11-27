@@ -12,7 +12,7 @@
  */
 public class Plan
 {
-    public Guid ID { get; set; }
+    public uint ID { get; set; }
     public Destination? Destination { get; set; }
     public string? Label { get; set; }
     public uint MaxRequestedTrip { get; set; }
