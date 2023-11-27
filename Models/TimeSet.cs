@@ -3,7 +3,7 @@
 /* The TimeSet class represents each timeset for each plan
    * Property:
    * - SetTime             | user's input time
-   * - Enabled             | is the set time enabled
+   * - IsEnabled             | is the set time enabled
    * - RepeatedOnMonday    | is the set time repeated on Monday
    * - RepeatedOnTuesday   | is the set time repeated on Tuesday
    * - RepeatedOnWednesday | is the set time repeated on Wednesday
