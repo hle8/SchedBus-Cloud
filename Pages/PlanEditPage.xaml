@@ -2,11 +2,203 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SchedBus.Pages.PlanEditPage"
-             Title="PlanEditPage">
-    <VerticalStackLayout>
+             BackgroundColor="LightBlue">
+    <Grid
+            RowSpacing="5"
+            ColumnSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            Text="Destination"
+            VerticalTextAlignment="End"
+            Grid.Row="0"
+            Grid.ColumnSpan="3"
+            FontAttributes="Bold"
+            FontSize="20"/>
+        <Frame 
+            Grid.Row="1"
+            Grid.ColumnSpan="3" 
+            BackgroundColor="Transparent"
+            BorderColor="Orange"
+            CornerRadius="10">
+            <Entry 
+            Placeholder="Your Destination"
+            Text="{x:Binding Destination}"/>
+
+        </Frame>
+
+
+        <Label 
+            Text="Arrival Time"
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            FontAttributes="Bold"
+            FontSize="25"
+            HorizontalOptions="Center"
+            VerticalTextAlignment="End"/>
+        <Frame
+            Grid.Row="3"
+            Grid.Column="0"
+            BackgroundColor="Beige"
+            BorderColor="Orange">
+            <DatePicker Format="dddd"
+                        HorizontalOptions="Center"
+                        FontAttributes="Bold"/>
+        </Frame>
+
+
+        <Frame
+            Grid.Row="3"
+            Grid.Column="1"
+            BackgroundColor="Beige"
+            BorderColor="Orange">
+            <TimePicker Format="hh:mm tt"
+                        HorizontalOptions="Center"
+                        FontSize="13"
+                        FontAttributes="Bold"/>
+        </Frame>
+
+
+        <Switch
+            Grid.Row="3"
+            Grid.Column="2"
+            HorizontalOptions="Center"
+            IsToggled="{Binding Choosing}" />
+
+        <Frame
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"    
+            BackgroundColor="Tan"
+            BorderColor="Orange">
+            <DatePicker 
+            Format="D"/>
+        </Frame>
+
+
+        <Switch
+            Grid.Row="4"
+            Grid.Column="2"
+            HorizontalOptions="Center"
+            IsToggled="{Binding Choosing}" />
+
+        <Button
+            Padding="20"
+            Grid.Row="5"
+            Grid.Column="1"
+            HorizontalOptions="Center"
+            CornerRadius="50"
+            BackgroundColor="Yellow"
+            BorderColor="Orange"
+            TextColor="Black"
+            Text="+"
+            VerticalOptions="Center" />
+
+        <Frame
+            Grid.Row="6"
+            Grid.ColumnSpan="3"
+            BackgroundColor="LightGoldenrodYellow"
+            BorderColor="Orange">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Grid.Column="0"
+                    Text="Max Closet Result"
+                    FontAttributes="Italic"
+                    VerticalTextAlignment="Center"/>
+                <Label
+                    Grid.Column="1"
+                    Text="Number"
+                    FontAttributes="Italic"
+                    HorizontalTextAlignment="End"
+                    VerticalTextAlignment="Center"/>
+            </Grid>
+        </Frame>
+
+        <Frame
+            Grid.Row="7"
+            Grid.ColumnSpan="3"
+            BackgroundColor="LightGoldenrodYellow"
+            BorderColor="Orange">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Text="Vibrartion"
+                    FontAttributes="Italic"
+                    VerticalTextAlignment="Center"/>
+                <Switch
+                    Grid.Column="1"
+                    IsToggled="{Binding Choosing}" />
+            </Grid>
+        </Frame>
+
+        <Frame
+            Grid.Row="8"
+            Grid.ColumnSpan="3"
+            BackgroundColor="LightGoldenrodYellow"
+            BorderColor="Orange">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Grid.Column="0"
+                    Text="Label"
+                    FontAttributes="Italic"
+                    VerticalTextAlignment="Center"/>
+                <Label
+                    Grid.Column="1"
+                    Text="Label"
+                    FontAttributes="Italic"
+                    HorizontalTextAlignment="End"
+                    VerticalTextAlignment="Center"/>
+            </Grid>
+        </Frame>
+
+        <Button
+            Grid.Row="9"
+            Grid.Column="0"
+            Text="Delete"
+            FontAttributes="Bold"
+            FontSize="15"
+            BackgroundColor="LightSlateGrey"
+            BorderColor="Orange"
+            TextColor="Black"/>
+
+        <Button
+           
+            Grid.Row="9"
+            Grid.Column="2"
+            Text="Save"
+            FontAttributes="Bold"
+            FontSize="15"
+            BackgroundColor="LightGreen"
+            BorderColor="Orange"
+            TextColor="Black"/>
+
+    </Grid>
 </ContentPage>
