@@ -12,7 +12,7 @@
             <ShellContent ContentTemplate="{DataTemplate page:HomePage}" />
         </Tab>
         <Tab Title="Plans" Icon="ballot.png">
-            <ShellContent ContentTemplate="{DataTemplate page:TimeSetPage}" />
+            <ShellContent ContentTemplate="{DataTemplate page:PlanPage}" />
         </Tab>
     </TabBar>
 
