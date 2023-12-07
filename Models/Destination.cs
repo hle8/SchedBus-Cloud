@@ -2,12 +2,12 @@
 
 namespace SchedBus.Models;
 
-/* The Destination class represent the plan destination.
+/* The Destination class represents the plan destination.
  * Property:
  * - Id         | uniquely identify each destination
- * - Name		| The location that users want to go or save
+ * - Name		    | The location that users want to go or save
  * - Longtitude	| The location logntitude 
- * - Latitude	| The location latitude
+ * - Latitude	  | The location latitude
  */
 
 // [Table("destination")]

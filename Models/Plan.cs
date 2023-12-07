@@ -18,11 +18,10 @@ public class Plan
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
-
     [MaxLength(250), Unique]
     public string Label { get; set; }
-
-    public Destination? Destination { get; set; }
+  
+    public Destination Destination { get; set; }
     public int MaxNumberOfRoutes { get; set; }
     public bool Notification { get; set; }
     public bool Vibration { get; set; }
