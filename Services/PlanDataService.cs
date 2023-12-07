@@ -1,62 +1,75 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SchedBus.Models;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using SchedBus.Models;
+using SQLite;
 
 namespace SchedBus.Services;
 
-public class PlanDataService : ObservableObject
+class PlanDataService : IDataStore
 {
-    private static PlanDataService _instance;
-    private uint _lastId = 0;
+    SQLiteAsyncConnection Database;
 
-    public static PlanDataService Instance => _instance ??= new PlanDataService();
+    const string DatabaseFilename = "SchedBus.db";
 
-    public ObservableCollection<Plan> Plans { get; private set; }
+    const SQLiteOpenFlags Flags =
+            // open the database in read/write mode
+            SQLiteOpenFlags.ReadWrite |
+            // create the database if it doesn't exist
+            SQLiteOpenFlags.Create |
+            // enable multi-threaded database access
+            SQLiteOpenFlags.SharedCache;
 
-    private PlanDataService ()
+    static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
+    async Task Init()
     {
-        Plans = new ObservableCollection<Plan> ();
-        Plans.CollectionChanged += Plans_CollectionChanged;
+        if (Database != null) return;
 
-        LoadSamplePlans();
+        Database = new SQLiteAsyncConnection(DatabasePath, Flags);
+
+        await Database.CreateTableAsync<Plan>();
+
+        await InsertSampleData();
     }
 
-    private void LoadSamplePlans()
+    async Task InsertSampleData()
     {
-        for (var i = 1; i <= 5; i++)
-        {
-            Plans.Add(new Plan { Label = $"Plan {i}" });
-        }
+        // for (int i = 1; i <= 5; i++)
+        // {
+        //     await SavePlanAsync(new Plan() { Label = $"Plan {i}", MaxNumberOfRoutes = i, Vibration = (i % 2 == 0), Notification = (i % 2 == 0) });
+        // }
+        await SavePlanAsync(new Plan() { Label = $"Plan sample", MaxNumberOfRoutes = 2, Vibration = (2 % 2 == 0), Notification = (2 % 2 == 0) });
     }
 
-    private void Plans_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    // Get all plans
+    public async Task<List<Plan>> GetPlansAsync()
     {
-        if(e.Action == NotifyCollectionChangedAction.Add)
-        {
-            foreach (Plan plan in e.NewItems) 
-            {
-                plan.ID = ++_lastId;
-            }
-        }
+        await Init();
+
+        return await Database.Table<Plan>().ToListAsync();
     }
 
-    public void AddPlan(Plan plan)
+    // Get a plans
+    public async Task<Plan> GetPlanAsync(int id)
     {
-        Plans.Add(plan);
+        await Init();
+
+        return await Database.Table<Plan>().Where(i => i.Id == id).FirstOrDefaultAsync();
     }
 
-    public void UpdatePlan(Plan plan)
+    // Save a plan
+    public async Task<int> SavePlanAsync(Plan plan)
     {
-        var existingPlan = Plans.FirstOrDefault(a => a.ID == plan.ID);
-        if (existingPlan != null)
-        {
-            existingPlan = plan;
-        }
+        await Init();
+
+        if (plan.Id != 0) return await Database.UpdateAsync(plan);
+        else return await Database.InsertAsync(plan);
+
+        ;
     }
 
-    public void RemovePlan(Plan plan)
+    // Remove a plan
+    public async Task<int> RemovePlanAsync(int id)
     {
-        Plans.Remove(plan);
+        await Init();
+
+        return await Database.DeleteAsync<Plan>(id);
     }
 }
