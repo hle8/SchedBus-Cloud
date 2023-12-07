@@ -12,3 +12,28 @@ SchedBus makes it easier to find the best bus routes to your workplaces, schools
 - [Microsoft.Maui.Controls.Maps](https://www.nuget.org/packages/Microsoft.Maui.Controls.Maps/8.0.3?_src=template)
 - [Google Maps APIs](https://developers.google.com/maps)
 - [Firebase](http://firebase.google.com/)
+- [SQLite](https://www.nuget.org/packages/sqlite-net-pcl/)
+## Branch Plan
+```mermaid
+gitGraph
+    commit id: "Created the project"
+    commit id: "Created 3 models"
+    commit id: "Added 3 pages"
+    commit id: "Added tab navigation"
+    branch plan-page
+    checkout main
+    branch map-page
+    checkout plan-page
+    commit id: "Added UI to Plan Page"
+    commit id: "Added UI to PlanEdit Page"
+    commit id: "Added UI to TimeSet Page"
+    commit id: "Added MVVM for Plan Page"
+    commit id: "Added MVVM for PlanEdit Page"
+    commit id: "Added MVVM for TimeSet Page"
+    commit id: "Added SQLite DataService"
+    checkout main
+    merge plan-page
+    checkout map-page
+    commit id: "Added Google Maps API"
+    commit id: "Added map view to Home Page"
+```
