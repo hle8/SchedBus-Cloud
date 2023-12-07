@@ -1,16 +1,21 @@
-﻿namespace SchedBus.Models;
+﻿using SQLite;
+
+namespace SchedBus.Models;
 
 /* The Destination class represent the plan destination.
  * Property:
- * - ID         | uniquely identify each destination
+ * - Id         | uniquely identify each destination
  * - Name		| The location that users want to go or save
  * - Longtitude	| The location logntitude 
  * - Latitude	| The location latitude
  */
+
+// [Table("destination")]
 public class Destination
 {
-	public uint ID { get; set; }
-	public string? Name{ get; set; }
-	public double Longitude { get; set; }
-	public double Latitude { get; set; }
+    // [PrimaryKey, AutoIncrement]
+    // public uint Id { get; set; }
+    public string Name { get; set; }
+    public double Longitude { get; set; }
+    public double Latitude { get; set; }
 }
