@@ -36,4 +36,5 @@ gitGraph
     checkout map-page
     commit id: "Added Google Maps API"
     commit id: "Added map view to Home Page"
+    merge main
 ```
