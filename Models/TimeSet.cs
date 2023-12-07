@@ -2,28 +2,25 @@
 
 /* The TimeSet class represents each timeset for each plan
    * Property:
-   * - ID                | uniquely identify each timeset
-   * - Hour              | user's input hour
-   * - Minute            | user's input minute
-   * - RepeatOnMonday    | is the set time repeated on Monday
-   * - RepeatOnTuesday   | is the set time repeated on Tuesday
-   * - RepeatOnWednesday | is the set time repeated on Wednesday
-   * - RepeatOnThursday  | is the set time repeated on Thursday
-   * - RepeatOnFriday    | is the set time repeated on Friday
-   * - RepeatOnSaturday  | is the set time repeated on Saturday
-   * - RepeatOnSunday    | is the set time repeated on Sunday
+   * - SetTime             | user's input time
+   * - IsEnabled           | is the set time enabled
+   * - RepeatedOnMonday    | is the set time repeated on Monday
+   * - RepeatedOnTuesday   | is the set time repeated on Tuesday
+   * - RepeatedOnWednesday | is the set time repeated on Wednesday
+   * - RepeatedOnThursday  | is the set time repeated on Thursday
+   * - RepeatedOnFriday    | is the set time repeated on Friday
+   * - RepeatedOnSaturday  | is the set time repeated on Saturday
+   * - RepeatedOnSunday    | is the set time repeated on Sunday
    */
 public class TimeSet
 {
-    public uint ID { get; set; }
-    public uint Hour { get; set; }
-    public uint Minute { get; set; }
-    public bool IsAM { get; set; }
-    public bool RepeatOnMonday { get; set; }
-    public bool RepeatOnTuesday { get; set; }
-    public bool RepeatOnWednesday { get; set; }
-    public bool RepeatOnThursday { get; set; }
-    public bool RepeatOnFriday { get; set; }
-    public bool RepeatOnSaturday { get; set; }
-    public bool RepeatOnSunday { get; set; }
+    public TimeSpan SetTime { get; set; }
+    public bool IsEnabled { get; set; }
+    public bool RepeatedOnMonday { get; set; }
+    public bool RepeatedOnTuesday { get; set; }
+    public bool RepeatedOnWednesday { get; set; }
+    public bool RepeatedOnThursday { get; set; }
+    public bool RepeatedOnFriday { get; set; }
+    public bool RepeatedOnSaturday { get; set; }
+    public bool RepeatedOnSunday { get; set; }
 }
