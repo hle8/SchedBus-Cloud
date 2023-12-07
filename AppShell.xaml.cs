@@ -7,7 +7,7 @@ namespace SchedBus
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("planeditpage", typeof(PlanEditPage));
+            Routing.RegisterRoute(nameof(PlanEditPage), typeof(PlanEditPage));
         }
     }
 }
