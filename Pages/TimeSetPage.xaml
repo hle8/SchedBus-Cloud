@@ -3,245 +3,235 @@
     x:Class="SchedBus.Pages.TimeSetPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
     Title="TimeSetPage">
-    <VerticalStackLayout Padding="10" Spacing="10">
 
-        <Label
-            FontAttributes="Bold"
-            FontSize="20"
-            Text="Choose your time" />
+    <ContentPage.BindingContext>
+        <viewmodel:TimeSetViewModel />
+    </ContentPage.BindingContext>
 
-        <Frame
-            BackgroundColor="Beige"
-            BorderColor="Orange"
-            HeightRequest="125">
-            <TimePicker
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="10">
+            <Label
                 FontAttributes="Bold"
-                FontSize="60"
-                Format="hh:mm tt"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand" />
-        </Frame>
-
-
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                FontSize="20"
+                Text="Choose your time" />
 
             <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
+                BackgroundColor="Beige"
+                BorderColor="Orange"
+                HeightRequest="125">
+                <TimePicker
                     FontAttributes="Bold"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Monday" />
+                    FontSize="60"
+                    Format="hh:mm tt"
+                    HorizontalOptions="CenterAndExpand"
+                    Time="{Binding SetTime}"
+                    VerticalOptions="CenterAndExpand" />
             </Frame>
 
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Monday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnMonday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Tuesday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnTuesday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
 
-            <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Wednesday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnWednesday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Thursday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnThursday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Friday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnFriday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Saturday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnSaturday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Frame
+                    Grid.Column="0"
+                    BackgroundColor="Orange"
+                    CornerRadius="50"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    WidthRequest="150">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Sunday" />
+                </Frame>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding RepeatedOnSunday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="LightSlateGray"
                     FontAttributes="Bold"
                     FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Tuesday" />
-            </Frame>
-
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
+                    Text="Delete"
+                    TextColor="Black" />
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="LightPink"
                     FontAttributes="Bold"
                     FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Wednesday" />
-            </Frame>
-
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Thursday" />
-            </Frame>
-
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Friday" />
-            </Frame>
-
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Saturday" />
-            </Frame>
-
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Frame
-                Grid.Column="0"
-                BackgroundColor="Orange"
-                CornerRadius="50"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                WidthRequest="150">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="16"
-                    HorizontalTextAlignment="Center"
-                    Text="Sunday" />
-            </Frame>
-
-            <Switch
-                Grid.Column="1"
-                HorizontalOptions="CenterAndExpand"
-                IsToggled="{Binding Choosing}"
-                OnColor="Orange"
-                ThumbColor="Green" />
-        </Grid>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Button
-                Grid.Column="0"
-                BackgroundColor="LightSlateGray"
-                FontAttributes="Bold"
-                FontSize="16"
-                Text="Delete"
-                TextColor="Black" />
-
-            <Button
-                Grid.Column="1"
-                BackgroundColor="LightPink"
-                FontAttributes="Bold"
-                FontSize="16"
-                Text="Save"
-                TextColor="Black" />
-        </Grid>
-    </VerticalStackLayout>
+                    Text="Save"
+                    TextColor="Black" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
