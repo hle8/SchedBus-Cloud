@@ -1,52 +1,41 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SchedBus.Models;
-using System.Windows.Input;
 
 namespace SchedBus.ViewModels;
 
-internal class TimeSetViewModel : ObservableObject
+internal class TimeSetViewModel : ObservableObject, IQueryAttributable
 {
-    private TimeSet _timeset;
-    public TimeSpan SetTime { get => _timeset.SetTime; set => _timeset.SetTime = value; }
-    public bool IsEnabled { get => _timeset.IsEnabled; set => _timeset.IsEnabled = value; }
-    public bool RepeatedOnMonday { get => _timeset.RepeatedOnMonday; set => _timeset.RepeatedOnMonday = value; }
-    public bool RepeatedOnTuesday { get => _timeset.RepeatedOnTuesday; set => _timeset.RepeatedOnTuesday = value; }
-    public bool RepeatedOnWednesday { get => _timeset.RepeatedOnWednesday; set => _timeset.RepeatedOnWednesday = value; }
-    public bool RepeatedOnThursday { get => _timeset.RepeatedOnThursday; set => _timeset.RepeatedOnThursday = value; }
-    public bool RepeatedOnFriday { get => _timeset.RepeatedOnFriday; set => _timeset.RepeatedOnFriday = value; }
-    public bool RepeatedOnSaturday { get => _timeset.RepeatedOnSaturday; set => _timeset.RepeatedOnSaturday = value; }
-    public bool RepeatedOnSunday { get => _timeset.RepeatedOnSunday; set => _timeset.RepeatedOnSunday = value; }
+    public TimeSet TimeSet { get; set; }
 
-    public ICommand SaveCommand { set; get; }
-    public ICommand DeleteCommand { set; get; }
+    public IAsyncRelayCommand SaveCommand { get; }
+    public IAsyncRelayCommand DeleteCommand { get; }
 
     public TimeSetViewModel()
     {
-        _timeset = new();
         SaveCommand = new AsyncRelayCommand(Save);
         DeleteCommand = new AsyncRelayCommand(Delete);
-
-        OnPropertyChanged(nameof(SetTime));
-        OnPropertyChanged(nameof(IsEnabled));
-        OnPropertyChanged(nameof(RepeatedOnMonday));
-        OnPropertyChanged(nameof(RepeatedOnTuesday));
-        OnPropertyChanged(nameof(RepeatedOnWednesday));
-        OnPropertyChanged(nameof(RepeatedOnThursday));
-        OnPropertyChanged(nameof(RepeatedOnFriday));
-        OnPropertyChanged(nameof(RepeatedOnSaturday));
-        OnPropertyChanged(nameof(RepeatedOnSunday));
     }
 
-    public TimeSetViewModel(TimeSet timeset) => _timeset = timeset;
+    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("selectedtimeset"))
+        {
+            TimeSet = (TimeSet)query["selectedtimeset"];
+
+            OnPropertyChanged(nameof(TimeSet));
+        }
+    }
 
     public async Task Save()
     {
-        await Shell.Current.GoToAsync($"..");
+        //var timeSetId = await SqliteDataStore.SaveTimeSetAsync(_timeset, _planId);
+        //await Shell.Current.GoToAsync($"..");
     }
 
     public async Task Delete()
     {
-        await Shell.Current.GoToAsync($"..");
+        //await SqliteDataStore.RemoveNotUsedTimeSetAsync(_timeset.Id, _planId);
+        //await Shell.Current.GoToAsync($"..");
     }
 }

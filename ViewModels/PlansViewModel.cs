@@ -1,46 +1,47 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MvvmHelpers;
+using SchedBus.Models;
 using SchedBus.Services;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace SchedBus.ViewModels;
 
-internal class PlansViewModel
+internal class PlansViewModel : ObservableObject
 {
-    public IDataStore SqliteDataStore => DependencyService.Get<IDataStore>();
-    public ObservableRangeCollection<PlanEditViewModel> Plans { get; set; }
-    public ICommand PageAppearingCommand { get; set; }
-    public ICommand AddCommand { get; }
-    public ICommand EditCommand { get; }
-    public ICommand DeleteCommand { get; }
+    protected static PlanDataService Database => PlanDataService.Instance;
+    public ObservableCollection<Plan> Plans { get; set; }
+    public IAsyncRelayCommand GetCommand { get; }
+    public IAsyncRelayCommand AddCommand { get; }
+    public IAsyncRelayCommand EditCommand { get; }
+    public IAsyncRelayCommand DeleteCommand { get; }
 
     public PlansViewModel()
     {
-        Plans = new ObservableRangeCollection<PlanEditViewModel>();
-        PageAppearingCommand = new AsyncRelayCommand(PageAppearing);
+        GetCommand = new AsyncRelayCommand(GetAsync);
         AddCommand = new AsyncRelayCommand(AddAsync);
-        EditCommand = new AsyncRelayCommand<PlanEditViewModel>(EditAsync);
-        DeleteCommand = new AsyncRelayCommand<PlanEditViewModel>(DeleteAsync);
+        EditCommand = new AsyncRelayCommand<Plan>(EditAsync);
+        DeleteCommand = new AsyncRelayCommand<Plan>(DeleteAsync);
     }
 
-    public async Task Refresh()
+    public async Task GetAsync()
     {
-        var plans = await SqliteDataStore.GetPlansAsync();
-        Plans.Clear();
-        Plans.AddRange(new List<PlanEditViewModel>(plans.Select(plan => new PlanEditViewModel(plan))));
+        Plans = await Database.GetDbAsync<Plan>();
+        OnPropertyChanged(nameof(Plans));
     }
 
-    async Task PageAppearing() => await Refresh();
-
-    async Task AddAsync() => await Shell.Current.GoToAsync(nameof(Pages.PlanEditPage));
-
-    async Task EditAsync(PlanEditViewModel plan)
+    async Task AddAsync()
     {
-        await Shell.Current.GoToAsync($"{nameof(Pages.PlanEditPage)}?selectedplan={plan.Id}");
+        await Shell.Current.GoToAsync($"{nameof(Pages.PlanEditPage)}");
     }
 
-    async Task DeleteAsync(PlanEditViewModel plan)
+    async Task EditAsync(Plan plan)
     {
-        await SqliteDataStore.RemovePlanAsync(plan.Id);
+        var navigationParameter = new Dictionary<string, object>() { { "selectedplan", plan } };
+        await Shell.Current.GoToAsync($"{nameof(Pages.PlanEditPage)}", navigationParameter);
+    }
+
+    async Task DeleteAsync(Plan plan)
+    {
+        await Database.DeleteDbAsync(plan);
     }
 }

@@ -3,61 +3,68 @@ using CommunityToolkit.Mvvm.Input;
 using SchedBus.Models;
 using SchedBus.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace SchedBus.ViewModels;
 
 internal class PlanEditViewModel : ObservableObject, IQueryAttributable
 {
-    Plan _plan;
+    protected static PlanDataService Database => PlanDataService.Instance;
 
-    public ObservableCollection<TimeSetViewModel> TimeSet { get; set; }
-    public int Id { get => _plan.Id; set => _plan.Id = value; }
-    public string Label { get => _plan.Label; set => _plan.Label = value; }
-    public int MaxNumberOfRoutes { get => _plan.MaxNumberOfRoutes; set => _plan.MaxNumberOfRoutes = value; }
-    public bool Vibration { get => _plan.Vibration; set => _plan.Vibration = value; }
-    public bool Notification { get => _plan.Notification; set => _plan.Notification = value; }
+    private Plan _plan;
+    public Plan Plan
+    {
+        get { return _plan; }
+        set
+        {
+            _plan = value;
+            OnPropertyChanged(nameof(Plan));
+        }
+    }
+    public ObservableCollection<TimeSet> TimeSet { get; set; }
 
-    public IDataStore SqliteDataStore => DependencyService.Get<IDataStore>();
-
-    public ICommand SaveCommand { set; get; }
-    public ICommand DeleteCommand { set; get; }
+    public IAsyncRelayCommand GetCommand { get; }
+    public IAsyncRelayCommand SelectCommand { get; }
+    public IAsyncRelayCommand SaveCommand { get; }
+    public IAsyncRelayCommand DeleteCommand { get; }
 
     public PlanEditViewModel()
     {
-        _plan = new Plan();
-        TimeSet = new ObservableCollection<TimeSetViewModel>();
-        SaveCommand = new AsyncRelayCommand(Save);
-        DeleteCommand = new AsyncRelayCommand(Delete);
+        GetCommand = new AsyncRelayCommand(GetAsync);
+        SelectCommand = new AsyncRelayCommand<TimeSet>(SelectAsync);
+        SaveCommand = new AsyncRelayCommand(SaveAsync);
+        DeleteCommand = new AsyncRelayCommand(DeleteAsync);
     }
 
-    public PlanEditViewModel(Plan plan) => _plan = plan;
-
-    async void IQueryAttributable.ApplyQueryAttributes(System.Collections.Generic.IDictionary<string, object> query)
+    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!query.ContainsKey("id")) return;
+        if (query.ContainsKey("selectedplan"))
+        {
+            _plan = query["selectedplan"] as Plan;
 
-        var id = Convert.ToInt32(query["id"].ToString);
-        _plan = await SqliteDataStore.GetPlanAsync(id);
-
-        OnPropertyChanged(nameof(Id));
-        OnPropertyChanged(nameof(Label));
-        OnPropertyChanged(nameof(MaxNumberOfRoutes));
-        OnPropertyChanged(nameof(Vibration));
-        OnPropertyChanged(nameof(Notification));
+            OnPropertyChanged(nameof(Plan));
+        }
     }
 
-    public async Task Save()
+    public async Task GetAsync()
     {
-        await SqliteDataStore.SavePlanAsync(_plan);
+        TimeSet = await Database.GetTimeSetOfPlanAsync(_plan.Id);
+        OnPropertyChanged(nameof(TimeSet));
+    }
 
+    public async Task SelectAsync(TimeSet timSet)
+    {
+        await Shell.Current.GoToAsync($"{nameof(Pages.PlanEditPage)}?selectedtimeset={timSet.Id}&planid={_plan.Id}");
+    }
+
+    public async Task SaveAsync()
+    {
+        await Database.SavePlanAsync(_plan);
         await Shell.Current.GoToAsync($"..");
     }
 
-    public async Task Delete()
+    public async Task DeleteAsync()
     {
-        await SqliteDataStore.RemovePlanAsync(_plan.Id);
-
+        await Database.DeleteDbAsync(_plan);
         await Shell.Current.GoToAsync($"..");
     }
 }
