@@ -1,9 +1,12 @@
-﻿namespace SchedBus.Models;
+﻿using SQLite;
+
+namespace SchedBus.Models;
 
 /* The TimeSet class represents each timeset for each plan
    * Property:
-   * - SetTime             | user's input time
-   * - IsEnabled             | is the set time enabled
+   * - Id                  | uniquely identify each timeset
+   * - Time                | user's input time
+   * - IsEnabled           | is the set time enabled
    * - RepeatedOnMonday    | is the set time repeated on Monday
    * - RepeatedOnTuesday   | is the set time repeated on Tuesday
    * - RepeatedOnWednesday | is the set time repeated on Wednesday
@@ -12,9 +15,14 @@
    * - RepeatedOnSaturday  | is the set time repeated on Saturday
    * - RepeatedOnSunday    | is the set time repeated on Sunday
    */
+
+[Table("TimeSet")]
 public class TimeSet
 {
-    public TimeSpan SetTime { get; set; }
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
+    public TimeSpan Time { get; set; }
     public bool IsEnabled { get; set; }
     public bool RepeatedOnMonday { get; set; }
     public bool RepeatedOnTuesday { get; set; }

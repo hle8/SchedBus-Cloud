@@ -10,11 +10,12 @@ namespace SchedBus.Models;
  * - Latitude	| The location latitude
  */
 
-// [Table("destination")]
+[Table("Destinations")]
 public class Destination
 {
-    // [PrimaryKey, AutoIncrement]
-    // public uint Id { get; set; }
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
     public string Name { get; set; }
     public double Longitude { get; set; }
     public double Latitude { get; set; }
