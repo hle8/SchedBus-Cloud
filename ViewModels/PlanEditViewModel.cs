@@ -53,18 +53,19 @@ internal class PlanEditViewModel : ObservableObject, IQueryAttributable
 
     public async Task SelectAsync(TimeSet timSet)
     {
-        await Shell.Current.GoToAsync($"{nameof(Pages.PlanEditPage)}?selectedtimeset={timSet.Id}&planid={_plan.Id}");
+        var navigationParameter = new Dictionary<string, object>() { { "selectedtimeset", timSet } };
+        await Shell.Current.GoToAsync($"{nameof(Pages.TimeSetPage)}", navigationParameter);
     }
 
     public async Task SaveAsync()
     {
-        await Database.SavePlanAsync(_plan);
+        // await Database.SavePlanAsync(_plan);
         await Shell.Current.GoToAsync($"..");
     }
 
     public async Task DeleteAsync()
     {
-        await Database.DeleteDbAsync(_plan);
+        // await Database.DeleteDbAsync(_plan);
         await Shell.Current.GoToAsync($"..");
     }
 }

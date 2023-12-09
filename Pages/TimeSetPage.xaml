@@ -26,7 +26,7 @@
                     FontSize="60"
                     Format="hh:mm tt"
                     HorizontalOptions="CenterAndExpand"
-                    Time="{Binding Time}"
+                    Time="{Binding TimeSet.Time}"
                     VerticalOptions="CenterAndExpand" />
             </Frame>
 
@@ -51,7 +51,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnMonday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnMonday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -77,7 +77,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnTuesday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnTuesday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -103,7 +103,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnWednesday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnWednesday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -129,7 +129,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnThursday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnThursday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -155,7 +155,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnFriday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnFriday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -181,7 +181,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnSaturday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnSaturday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -207,7 +207,7 @@
                 <Switch
                     Grid.Column="1"
                     HorizontalOptions="CenterAndExpand"
-                    IsToggled="{Binding RepeatedOnSunday}"
+                    IsToggled="{Binding TimeSet.RepeatedOnSunday}"
                     OnColor="Orange"
                     ThumbColor="Green" />
             </Grid>
@@ -220,6 +220,7 @@
                 <Button
                     Grid.Column="0"
                     BackgroundColor="LightSlateGray"
+                    Command="{Binding DeleteCommand}"
                     FontAttributes="Bold"
                     FontSize="16"
                     Text="Delete"
@@ -227,6 +228,7 @@
                 <Button
                     Grid.Column="1"
                     BackgroundColor="LightPink"
+                    Command="{Binding SaveCommand}"
                     FontAttributes="Bold"
                     FontSize="16"
                     Text="Save"
