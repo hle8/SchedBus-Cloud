@@ -3,6 +3,7 @@
     x:Class="SchedBus.Pages.PlanPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:SchedBus.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
     Title="PlanPage">
@@ -12,7 +13,7 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior Command="{Binding PageAppearingCommand}" EventName="Appearing" />
+        <toolkit:EventToCommandBehavior Command="{Binding GetCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
 
     <ContentPage.Content>
@@ -23,7 +24,7 @@
                 ItemsSource="{Binding Plans}"
                 SelectionMode="Single">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodel:PlanEditViewModel">
+                    <DataTemplate x:DataType="model:Plan">
                         <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems>

@@ -26,7 +26,7 @@
                     FontSize="60"
                     Format="hh:mm tt"
                     HorizontalOptions="CenterAndExpand"
-                    Time="{Binding SetTime}"
+                    Time="{Binding Time}"
                     VerticalOptions="CenterAndExpand" />
             </Frame>
 

@@ -3,6 +3,8 @@
     x:Class="SchedBus.Pages.PlanEditPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:SchedBus.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
     BackgroundColor="LightBlue">
 
@@ -10,173 +12,200 @@
         <viewmodel:PlanEditViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <Grid
-            Padding="10"
-            ColumnSpacing="5"
-            RowSpacing="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25" />
-                <RowDefinition Height="80" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="80" />
-                <RowDefinition Height="80" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding GetCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
 
-            <Label
-                Grid.Row="0"
-                Grid.ColumnSpan="3"
-                FontAttributes="Bold"
-                FontSize="20"
-                Text="Destination"
-                VerticalTextAlignment="End" />
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid
+                Padding="10"
+                ColumnSpacing="5"
+                RowSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Frame
-                Grid.Row="1"
-                Grid.ColumnSpan="3"
-                BackgroundColor="Transparent"
-                BorderColor="Orange"
-                CornerRadius="10">
-                <Entry Placeholder="Your Destination" Text="" />
-            </Frame>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="Destination"
+                    VerticalTextAlignment="End" />
 
-            <Label
-                Grid.Row="2"
-                Grid.ColumnSpan="3"
-                FontAttributes="Bold"
-                FontSize="25"
-                HorizontalOptions="Center"
-                Text="Arrival Time"
-                VerticalTextAlignment="End" />
+                <Frame
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
+                    CornerRadius="10">
+                    <Entry Placeholder="Your Destination" Text="" />
+                </Frame>
 
-            <CollectionView
-                x:Name="TimeSetList"
-                ItemsSource="{Binding TimeSet}"
-                SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodel:TimeSetViewModel">
-                        <Frame>
-                            <Grid ColumnDefinitions="*,*,*">
-                                <Label Text="" />
-                                <Label Text="{Binding SetTime}" />
-                                <Switch IsToggled="{Binding IsEnabled}" />
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                <Label
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    FontAttributes="Bold"
+                    FontSize="25"
+                    HorizontalOptions="Center"
+                    Text="Arrival Time"
+                    VerticalTextAlignment="End" />
 
-            <ImageButton
-                Grid.Row="5"
-                Grid.Column="1"
-                Padding="15"
-                BackgroundColor="Yellow"
-                BorderColor="Orange"
-                CornerRadius="10"
-                HorizontalOptions="Center"
-                Source="plus.png"
-                VerticalOptions="Center" />
+                <CollectionView
+                    x:Name="TimeSetList"
+                    Grid.Row="3"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding TimeSet}"
+                    SelectionChangedCommand="{Binding SelectCommand}"
+                    SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                    SelectionMode="Single"
+                    WidthRequest="240">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:TimeSet">
+                            <Frame
+                                Margin="2"
+                                Padding="4"
+                                BackgroundColor="Gray">
+                                <Grid ColumnDefinitions="*,*,Auto">
+                                    <Label
+                                        Grid.Column="0"
+                                        Padding="2"
+                                        FontSize="17"
+                                        Text="Custom"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="17"
+                                        Text="{Binding Time}"
+                                        VerticalOptions="Center" />
+                                    <Switch
+                                        Grid.Column="2"
+                                        IsToggled="{Binding IsEnabled}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-            <Frame
-                Grid.Row="6"
-                Grid.ColumnSpan="3"
-                BackgroundColor="LightGoldenrodYellow"
-                BorderColor="Orange">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Grid.Column="0"
-                        FontAttributes="Bold"
-                        Text="Max Routes"
-                        VerticalTextAlignment="Center" />
-                    <Entry
-                        Grid.Column="1"
-                        FontAttributes="Italic"
-                        HorizontalTextAlignment="End"
-                        Keyboard="Numeric"
-                        Placeholder="Number"
-                        Text=""
-                        VerticalTextAlignment="Center" />
-                </Grid>
-            </Frame>
+                <ImageButton
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Padding="15"
+                    BackgroundColor="Yellow"
+                    BorderColor="Orange"
+                    CornerRadius="10"
+                    HorizontalOptions="Center"
+                    Source="plus.png"
+                    VerticalOptions="Center" />
 
-            <Frame
-                Grid.Row="7"
-                Grid.ColumnSpan="3"
-                BackgroundColor="LightGoldenrodYellow"
-                BorderColor="Orange">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        FontAttributes="Italic"
-                        Text="Vibrartion"
-                        VerticalTextAlignment="Center" />
-                    <Switch Grid.Column="1" IsToggled="{Binding Vibration}" />
-                </Grid>
-            </Frame>
+                <Frame
+                    Grid.Row="6"
+                    Grid.ColumnSpan="3"
+                    BackgroundColor="LightGoldenrodYellow"
+                    BorderColor="Orange">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Max Routes"
+                            VerticalTextAlignment="Center" />
+                        <Entry
+                            Grid.Column="1"
+                            FontAttributes="Italic"
+                            HorizontalTextAlignment="End"
+                            Keyboard="Numeric"
+                            Placeholder="Number"
+                            Text="{Binding Plan.MaxNumberOfRoutes}"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Frame>
 
-            <Frame
-                Grid.Row="8"
-                Grid.ColumnSpan="3"
-                BackgroundColor="LightGoldenrodYellow"
-                BorderColor="Orange">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Grid.Column="0"
-                        FontAttributes="Bold"
-                        Text="Label"
-                        VerticalTextAlignment="Center" />
-                    <Entry
-                        Grid.Column="1"
-                        FontAttributes="Italic"
-                        HorizontalTextAlignment="End"
-                        Keyboard="Text"
-                        Placeholder="Name"
-                        Text="{Binding Label}"
-                        VerticalTextAlignment="Center" />
-                </Grid>
-            </Frame>
+                <Frame
+                    Grid.Row="7"
+                    Grid.ColumnSpan="3"
+                    BackgroundColor="LightGoldenrodYellow"
+                    BorderColor="Orange">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            FontAttributes="Bold"
+                            Text="Vibrartion"
+                            VerticalTextAlignment="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding Plan.Vibration}" />
+                    </Grid>
+                </Frame>
 
-            <Button
-                Grid.Row="9"
-                Grid.Column="0"
-                BackgroundColor="LightSlateGrey"
-                BorderColor="Orange"
-                FontAttributes="Bold"
-                FontSize="15"
-                Text="Delete"
-                TextColor="Black" />
+                <Frame
+                    Grid.Row="8"
+                    Grid.ColumnSpan="3"
+                    BackgroundColor="LightGoldenrodYellow"
+                    BorderColor="Orange">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Label"
+                            VerticalTextAlignment="Center" />
+                        <Entry
+                            Grid.Column="1"
+                            FontAttributes="Italic"
+                            HorizontalTextAlignment="End"
+                            Keyboard="Text"
+                            Placeholder="Name"
+                            Text="{Binding Plan.Label}"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </Frame>
 
-            <Button
-                Grid.Row="9"
-                Grid.Column="2"
-                BackgroundColor="LightGreen"
-                BorderColor="Orange"
-                FontAttributes="Bold"
-                FontSize="15"
-                Text="Save"
-                TextColor="Black" />
+                <Button
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    BackgroundColor="LightSlateGrey"
+                    BorderColor="Orange"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    Text="Delete"
+                    TextColor="Black" />
 
-        </Grid>
-    </ScrollView>
+                <Button
+                    Grid.Row="9"
+                    Grid.Column="2"
+                    BackgroundColor="LightGreen"
+                    BorderColor="Orange"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    Text="Save"
+                    TextColor="Black" />
+
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>
