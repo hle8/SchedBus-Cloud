@@ -4,7 +4,7 @@ using SchedBus.Models;
 
 namespace SchedBus.ViewModels;
 
-internal class TimeSetViewModel : ObservableObject, IQueryAttributable
+public class TimeSetViewModel : ObservableObject, IQueryAttributable
 {
     public TimeSet TimeSet { get; set; }
 

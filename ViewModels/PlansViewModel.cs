@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace SchedBus.ViewModels;
 
-internal class PlansViewModel : ObservableObject
+public class PlansViewModel : ObservableObject
 {
     protected static PlanDataService Database => PlanDataService.Instance;
     public ObservableCollection<Plan> Plans { get; set; }

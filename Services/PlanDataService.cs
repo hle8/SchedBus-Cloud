@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace SchedBus.Services;
 
-class PlanDataService
+public class PlanDataService
 {
     static PlanDataService _instance;
     public static PlanDataService Instance => _instance ??= new PlanDataService();

@@ -6,20 +6,11 @@ using System.Collections.ObjectModel;
 
 namespace SchedBus.ViewModels;
 
-internal class PlanEditViewModel : ObservableObject, IQueryAttributable
+public class PlanEditViewModel : ObservableObject, IQueryAttributable
 {
     protected static PlanDataService Database => PlanDataService.Instance;
 
-    private Plan _plan;
-    public Plan Plan
-    {
-        get { return _plan; }
-        set
-        {
-            _plan = value;
-            OnPropertyChanged(nameof(Plan));
-        }
-    }
+    public Plan Plan { get; set; }
     public ObservableCollection<TimeSet> TimeSet { get; set; }
 
     public IAsyncRelayCommand GetCommand { get; }
@@ -39,7 +30,7 @@ internal class PlanEditViewModel : ObservableObject, IQueryAttributable
     {
         if (query.ContainsKey("selectedplan"))
         {
-            _plan = query["selectedplan"] as Plan;
+            Plan = query["selectedplan"] as Plan;
 
             OnPropertyChanged(nameof(Plan));
         }
@@ -47,7 +38,7 @@ internal class PlanEditViewModel : ObservableObject, IQueryAttributable
 
     public async Task GetAsync()
     {
-        TimeSet = await Database.GetTimeSetOfPlanAsync(_plan.Id);
+        TimeSet = await Database.GetTimeSetOfPlanAsync(Plan.Id);
         OnPropertyChanged(nameof(TimeSet));
     }
 
