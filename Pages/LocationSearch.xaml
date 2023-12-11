@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SchedBus.Pages.LocationSearch"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:map="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:model="clr-namespace:SchedBus.Models"
+    xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
+    Title="LocationSearch"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <viewmodel:LocationSearchViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="*">
+        <map:Map
+            x:Name="map"
+            Grid.Row="0"
+            IsShowingUser="True"
+            MapType="Street" />
+        <Grid RowDefinitions="*,*">
+            <VerticalStackLayout
+                Grid.Row="0"
+                Padding="20"
+                VerticalOptions="Start">
+                <SearchBar
+                    x:Name="searchBar"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Background="Orange"
+                    Placeholder="Search"
+                    SearchCommand="{Binding GetPlacesCommand}"
+                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                    Text="{Binding SearchText}" />
+                <CollectionView
+                    x:Name="searchResults"
+                    Background="Snow"
+                    ItemsSource="{Binding GooglePlaces}"
+                    MaximumHeightRequest="300"
+                    SelectionChangedCommand="{Binding SelectPlaceCommand}"
+                    SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+                                <Border>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            FontAutoScalingEnabled="True"
+                                            FontSize="Small"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding displayName.Values[0]}"
+                                            TextColor="Blue" />
+                                        <Label
+                                            FontAutoScalingEnabled="True"
+                                            FontSize="Small"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding formattedAddress}"
+                                            TextColor="Blue" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            <Grid
+                Grid.Row="1"
+                Padding="20"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                VerticalOptions="End">
+                <Button
+                    Grid.Column="0"
+                    Background="DarkRed"
+                    Text="Delete"
+                    TextColor="White" />
+                <Button
+                    Grid.Column="1"
+                    Background="Orange"
+                    Text="Save" />
+            </Grid>
+        </Grid>
+    </Grid>
+
+</ContentPage>

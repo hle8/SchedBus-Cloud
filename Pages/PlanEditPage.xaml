@@ -10,7 +10,7 @@
     Shell.NavBarIsVisible="false">
 
     <ContentPage.Resources>
-        <x:String x:Key="circle-plus">&#xf055;</x:String>
+        <x:String x:Key="plus">&#x2b;</x:String>
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -95,7 +95,6 @@
                                         Padding="2"
                                         FontSize="18"
                                         Text="Custom"
-
                                         VerticalOptions="Center" />
                                     <Label
                                         Grid.Column="1"
@@ -118,23 +117,24 @@
                     Padding="15"
                     BackgroundColor="Transparent"
                     BorderColor="Orange"
-                    CornerRadius="20"
+                    BorderWidth="1"
+                    CornerRadius="10"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center" 
-                    BorderWidth="2">
+                    VerticalOptions="Center">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="FRF"
-                         Glyph="{StaticResource circle-plus}"
-                         Color="White"/>
+                        <FontImageSource
+                            FontFamily="FRF"
+                            Glyph="{StaticResource plus}"
+                            Color="White" />
                     </ImageButton.Source>
                 </ImageButton>
 
                 <Frame
                     Grid.Row="6"
                     Grid.ColumnSpan="3"
+                    Padding="10"
                     BackgroundColor="Transparent"
-                    BorderColor="Orange"
-                    Padding="10">
+                    BorderColor="Orange">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -143,18 +143,18 @@
                         <Label
                             Grid.Column="0"
                             FontAttributes="Bold"
+                            FontSize="20"
                             Text="Max Routes"
                             TextColor="Wheat"
-                            FontSize="20"
                             VerticalTextAlignment="Center" />
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
+                            FontSize="18"
                             HorizontalTextAlignment="Center"
                             Keyboard="Numeric"
                             Placeholder="Number"
                             Text="{Binding Plan.MaxNumberOfRoutes}"
-                            FontSize="18"
                             TextColor="Wheat" />
                     </Grid>
                 </Frame>
@@ -162,9 +162,9 @@
                 <Frame
                     Grid.Row="7"
                     Grid.ColumnSpan="3"
+                    Padding="10"
                     BackgroundColor="Transparent"
-                    BorderColor="Orange"
-                    Padding="10">
+                    BorderColor="Orange">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -172,24 +172,25 @@
                         </Grid.ColumnDefinitions>
                         <Label
                             FontAttributes="Bold"
+                            FontSize="20"
                             Text="Vibrartion"
                             TextColor="Wheat"
-                            FontSize="20"
                             VerticalTextAlignment="Center" />
-                        <Switch Grid.Column="1"
-                                IsToggled="{Binding Plan.Vibration}"
-                                OnColor="ForestGreen"
-                                ThumbColor="AntiqueWhite"
-                                HorizontalOptions="Center"/>
+                        <Switch
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            IsToggled="{Binding Plan.Vibration}"
+                            OnColor="ForestGreen"
+                            ThumbColor="AntiqueWhite" />
                     </Grid>
                 </Frame>
 
                 <Frame
                     Grid.Row="8"
                     Grid.ColumnSpan="3"
+                    Padding="10"
                     BackgroundColor="Transparent"
-                    BorderColor="Orange"
-                    Padding="10">
+                    BorderColor="Orange">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -198,20 +199,20 @@
                         <Label
                             Grid.Column="0"
                             FontAttributes="Bold"
+                            FontSize="20"
                             Text="Label"
                             TextColor="Wheat"
-                            FontSize="20"
                             VerticalTextAlignment="Center" />
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
+                            FontSize="18"
                             HorizontalTextAlignment="Center"
                             Keyboard="Text"
                             Placeholder="Name"
                             Text="{Binding Plan.Label}"
                             TextColor="Wheat"
-                            FontSize="18"
-                            VerticalTextAlignment="Center"/>
+                            VerticalTextAlignment="Center" />
                     </Grid>
                 </Frame>
 

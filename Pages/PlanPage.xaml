@@ -56,12 +56,12 @@
                                         Grid.Row="0"
                                         FontSize="25"
                                         Text="{Binding Label}"
-                                        TextColor="Wheat"/>
+                                        TextColor="Wheat" />
                                     <Label
                                         Grid.Row="1"
                                         FontSize="15"
                                         Text="{Binding Id}"
-                                        TextColor="Wheat"/>
+                                        TextColor="Wheat" />
                                     <ImageButton
                                         Grid.RowSpan="2"
                                         Grid.Column="1"
@@ -72,9 +72,10 @@
                                         HeightRequest="40"
                                         WidthRequest="40">
                                         <ImageButton.Source>
-                                            <FontImageSource FontFamily="FRF"
-                                                             Glyph="{StaticResource square-pen}"
-                                                             Color="White"/>
+                                            <FontImageSource
+                                                FontFamily="FRF"
+                                                Glyph="{StaticResource square-pen}"
+                                                Color="White" />
                                         </ImageButton.Source>
                                     </ImageButton>
 
@@ -103,9 +104,10 @@
                 HorizontalOptions="End"
                 WidthRequest="50">
                 <ImageButton.Source>
-                    <FontImageSource FontFamily="FRF"
-                                     Glyph="{StaticResource circle-plus}"
-                                     Color="White"/>
+                    <FontImageSource
+                        FontFamily="FRF"
+                        Glyph="{StaticResource circle-plus}"
+                        Color="White" />
                 </ImageButton.Source>
             </ImageButton>
         </Grid>
