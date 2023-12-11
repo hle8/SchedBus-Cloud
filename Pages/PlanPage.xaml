@@ -6,7 +6,13 @@
     xmlns:model="clr-namespace:SchedBus.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
-    Title="PlanPage">
+    Title="PlanPage"
+    BackgroundColor="Black">
+
+    <ContentPage.Resources>
+        <x:String x:Key="square-pen">&#xf14b;</x:String>
+        <x:String x:Key="circle-plus">&#xf055;</x:String>
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <viewmodel:PlansViewModel />
@@ -29,7 +35,6 @@
                             <SwipeView.RightItems>
                                 <SwipeItems>
                                     <SwipeItem
-                                        BackgroundColor="OrangeRed"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=DeleteCommand}"
                                         CommandParameter="{Binding .}"
                                         Text="Delete" />
@@ -38,8 +43,8 @@
                             <Frame
                                 Margin="5"
                                 Padding="0"
-                                BackgroundColor="Orange"
-                                BorderColor="Black"
+                                BackgroundColor="Transparent"
+                                BorderColor="Orange"
                                 CornerRadius="10"
                                 HasShadow="True">
                                 <Grid
@@ -50,20 +55,29 @@
                                     <Label
                                         Grid.Row="0"
                                         FontSize="25"
-                                        Text="{Binding Label}" />
+                                        Text="{Binding Label}"
+                                        TextColor="Wheat"/>
                                     <Label
                                         Grid.Row="1"
                                         FontSize="15"
-                                        Text="{Binding Id}" />
+                                        Text="{Binding Id}"
+                                        TextColor="Wheat"/>
                                     <ImageButton
                                         Grid.RowSpan="2"
                                         Grid.Column="1"
                                         Padding="3"
+                                        Aspect="AspectFit"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=EditCommand}"
                                         CommandParameter="{Binding .}"
                                         HeightRequest="40"
-                                        Source="edit.png"
-                                        WidthRequest="40" />
+                                        WidthRequest="40">
+                                        <ImageButton.Source>
+                                            <FontImageSource FontFamily="FRF"
+                                                             Glyph="{StaticResource square-pen}"
+                                                             Color="White"/>
+                                        </ImageButton.Source>
+                                    </ImageButton>
+
                                     <Switch
                                         Grid.RowSpan="2"
                                         Grid.Column="2"
@@ -80,13 +94,20 @@
                 Grid.Row="1"
                 Margin="40"
                 Padding="15"
-                Background="Orange"
+                Aspect="AspectFit"
+                Background="Transparent"
+                BorderColor="Orange"
                 Command="{Binding AddCommand}"
                 CornerRadius="20"
-                HeightRequest="60"
+                HeightRequest="50"
                 HorizontalOptions="End"
-                Source="plus.png"
-                WidthRequest="60" />
+                WidthRequest="50">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FRF"
+                                     Glyph="{StaticResource circle-plus}"
+                                     Color="White"/>
+                </ImageButton.Source>
+            </ImageButton>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

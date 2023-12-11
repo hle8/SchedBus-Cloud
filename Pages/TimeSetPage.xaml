@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
+    BackgroundColor="Black"
     Shell.NavBarIsVisible="false">
 
     <ContentPage.BindingContext>
@@ -15,10 +16,11 @@
             <Label
                 FontAttributes="Bold"
                 FontSize="20"
-                Text="Choose your time" />
+                Text="Choose your time"
+                TextColor="Wheat" />
 
             <Frame
-                BackgroundColor="Beige"
+                BackgroundColor="Transparent"
                 BorderColor="Orange"
                 HeightRequest="125">
                 <TimePicker
@@ -26,6 +28,7 @@
                     FontSize="60"
                     Format="hh:mm tt"
                     HorizontalOptions="CenterAndExpand"
+                    TextColor="Wheat"
                     Time="{Binding TimeSet.Time}"
                     VerticalOptions="CenterAndExpand" />
             </Frame>
@@ -37,7 +40,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -46,7 +50,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Monday" />
+                        Text="Monday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -63,7 +68,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -72,7 +78,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Tuesday" />
+                        Text="Tuesday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -89,7 +96,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -98,7 +106,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Wednesday" />
+                        Text="Wednesday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -115,7 +124,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -124,7 +134,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Thursday" />
+                        Text="Thursday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -141,7 +152,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -150,7 +162,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Friday" />
+                        Text="Friday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -167,7 +180,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -176,7 +190,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Saturday" />
+                        Text="Saturday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -193,7 +208,8 @@
                 </Grid.ColumnDefinitions>
                 <Frame
                     Grid.Column="0"
-                    BackgroundColor="Orange"
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
                     CornerRadius="50"
                     HeightRequest="60"
                     HorizontalOptions="End"
@@ -202,7 +218,8 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Sunday" />
+                        Text="Sunday"
+                        TextColor="Wheat" />
                 </Frame>
                 <Switch
                     Grid.Column="1"
@@ -227,7 +244,7 @@
                     TextColor="Black" />
                 <Button
                     Grid.Column="1"
-                    BackgroundColor="LightPink"
+                    BackgroundColor="LightGreen"
                     Command="{Binding SaveCommand}"
                     FontAttributes="Bold"
                     FontSize="16"

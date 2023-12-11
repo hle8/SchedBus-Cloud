@@ -6,8 +6,12 @@
     xmlns:model="clr-namespace:SchedBus.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
-    BackgroundColor="LightBlue"
+    BackgroundColor="Black"
     Shell.NavBarIsVisible="false">
+
+    <ContentPage.Resources>
+        <x:String x:Key="circle-plus">&#xf055;</x:String>
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <viewmodel:PlanEditViewModel />
@@ -47,6 +51,7 @@
                     FontAttributes="Bold"
                     FontSize="20"
                     Text="Destination"
+                    TextColor="White"
                     VerticalTextAlignment="End" />
 
                 <Frame
@@ -65,6 +70,7 @@
                     FontSize="25"
                     HorizontalOptions="Center"
                     Text="Arrival Time"
+                    TextColor="White"
                     VerticalTextAlignment="End" />
 
                 <CollectionView
@@ -81,14 +87,15 @@
                         <DataTemplate x:DataType="model:TimeSet">
                             <Frame
                                 Margin="2"
-                                Padding="4"
-                                BackgroundColor="Gray">
+                                Padding="5"
+                                BackgroundColor="LightGrey">
                                 <Grid ColumnDefinitions="*,*,Auto">
                                     <Label
                                         Grid.Column="0"
                                         Padding="2"
-                                        FontSize="17"
+                                        FontSize="18"
                                         Text="Custom"
+
                                         VerticalOptions="Center" />
                                     <Label
                                         Grid.Column="1"
@@ -109,18 +116,25 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Padding="15"
-                    BackgroundColor="Yellow"
+                    BackgroundColor="Transparent"
                     BorderColor="Orange"
-                    CornerRadius="10"
+                    CornerRadius="20"
                     HorizontalOptions="Center"
-                    Source="plus.png"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center" 
+                    BorderWidth="2">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FRF"
+                         Glyph="{StaticResource circle-plus}"
+                         Color="White"/>
+                    </ImageButton.Source>
+                </ImageButton>
 
                 <Frame
                     Grid.Row="6"
                     Grid.ColumnSpan="3"
-                    BackgroundColor="LightGoldenrodYellow"
-                    BorderColor="Orange">
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
+                    Padding="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -130,23 +144,27 @@
                             Grid.Column="0"
                             FontAttributes="Bold"
                             Text="Max Routes"
+                            TextColor="Wheat"
+                            FontSize="20"
                             VerticalTextAlignment="Center" />
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
-                            HorizontalTextAlignment="End"
+                            HorizontalTextAlignment="Center"
                             Keyboard="Numeric"
                             Placeholder="Number"
                             Text="{Binding Plan.MaxNumberOfRoutes}"
-                            VerticalTextAlignment="Center" />
+                            FontSize="18"
+                            TextColor="Wheat" />
                     </Grid>
                 </Frame>
 
                 <Frame
                     Grid.Row="7"
                     Grid.ColumnSpan="3"
-                    BackgroundColor="LightGoldenrodYellow"
-                    BorderColor="Orange">
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
+                    Padding="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -155,16 +173,23 @@
                         <Label
                             FontAttributes="Bold"
                             Text="Vibrartion"
+                            TextColor="Wheat"
+                            FontSize="20"
                             VerticalTextAlignment="Center" />
-                        <Switch Grid.Column="1" IsToggled="{Binding Plan.Vibration}" />
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding Plan.Vibration}"
+                                OnColor="ForestGreen"
+                                ThumbColor="AntiqueWhite"
+                                HorizontalOptions="Center"/>
                     </Grid>
                 </Frame>
 
                 <Frame
                     Grid.Row="8"
                     Grid.ColumnSpan="3"
-                    BackgroundColor="LightGoldenrodYellow"
-                    BorderColor="Orange">
+                    BackgroundColor="Transparent"
+                    BorderColor="Orange"
+                    Padding="10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -174,15 +199,19 @@
                             Grid.Column="0"
                             FontAttributes="Bold"
                             Text="Label"
+                            TextColor="Wheat"
+                            FontSize="20"
                             VerticalTextAlignment="Center" />
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
-                            HorizontalTextAlignment="End"
+                            HorizontalTextAlignment="Center"
                             Keyboard="Text"
                             Placeholder="Name"
                             Text="{Binding Plan.Label}"
-                            VerticalTextAlignment="Center" />
+                            TextColor="Wheat"
+                            FontSize="18"
+                            VerticalTextAlignment="Center"/>
                     </Grid>
                 </Frame>
 

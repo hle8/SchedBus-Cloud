@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
+
 namespace SchedBus
 {
     public static class MauiProgram
@@ -8,6 +9,8 @@ namespace SchedBus
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
+
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
@@ -15,6 +18,11 @@ namespace SchedBus
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+                    fonts.AddFont("Brands-Regular-400.otf", "BRF");
+                    fonts.AddFont("Free-Regular-400.otf", "FRF");
+                    fonts.AddFont("Free-Solid-900.otf", "FSF");
+
                 })
                 .UseMauiMaps();
 
@@ -23,6 +31,9 @@ namespace SchedBus
 #endif
 
             return builder.Build();
+
+            
+
         }
     }
 }
