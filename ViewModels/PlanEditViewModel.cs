@@ -8,7 +8,7 @@ namespace SchedBus.ViewModels;
 
 public class PlanEditViewModel : ObservableObject, IQueryAttributable
 {
-    protected static PlanDataService Database => PlanDataService.Instance;
+    protected static PlanSQLiteService Database => PlanSQLiteService.Instance;
 
     public Plan Plan { get; set; }
     public ObservableCollection<TimeSet> TimeSet { get; set; }
@@ -20,6 +20,8 @@ public class PlanEditViewModel : ObservableObject, IQueryAttributable
 
     public PlanEditViewModel()
     {
+        Plan = new Plan();
+        TimeSet = new ObservableCollection<TimeSet>();
         GetCommand = new AsyncRelayCommand(GetAsync);
         SelectCommand = new AsyncRelayCommand<TimeSet>(SelectAsync);
         SaveCommand = new AsyncRelayCommand(SaveAsync);

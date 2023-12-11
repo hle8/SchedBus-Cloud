@@ -8,7 +8,7 @@ namespace SchedBus.ViewModels;
 
 public class PlansViewModel : ObservableObject
 {
-    protected static PlanDataService Database => PlanDataService.Instance;
+    protected static PlanSQLiteService Database => PlanSQLiteService.Instance;
     public ObservableCollection<Plan> Plans { get; set; }
     public IAsyncRelayCommand GetCommand { get; }
     public IAsyncRelayCommand AddCommand { get; }
@@ -17,6 +17,7 @@ public class PlansViewModel : ObservableObject
 
     public PlansViewModel()
     {
+        Plans = new ObservableCollection<Plan>();
         GetCommand = new AsyncRelayCommand(GetAsync);
         AddCommand = new AsyncRelayCommand(AddAsync);
         EditCommand = new AsyncRelayCommand<Plan>(EditAsync);

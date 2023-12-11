@@ -13,6 +13,7 @@ public class TimeSetViewModel : ObservableObject, IQueryAttributable
 
     public TimeSetViewModel()
     {
+        TimeSet = new TimeSet();
         SaveCommand = new AsyncRelayCommand(Save);
         DeleteCommand = new AsyncRelayCommand(Delete);
     }
