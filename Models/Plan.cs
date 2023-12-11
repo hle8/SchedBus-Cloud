@@ -18,7 +18,7 @@ public class Plan
     public int Id { get; set; }
 
     [MaxLength(250), Unique]
-    public string Label { get; set; }
+    public string? Label { get; set; }
 
     [Indexed]
     public int DestinationId { get; set; }

@@ -5,10 +5,10 @@ using System.Collections.ObjectModel;
 
 namespace SchedBus.Services;
 
-public class PlanDataService
+public class PlanSQLiteService
 {
-    static PlanDataService _instance;
-    public static PlanDataService Instance => _instance ??= new PlanDataService();
+    static PlanSQLiteService _instance;
+    public static PlanSQLiteService Instance => _instance ??= new PlanSQLiteService();
 
     SQLiteAsyncConnection _database;
 
@@ -24,7 +24,7 @@ public class PlanDataService
 
     static string DatabasePath => Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
-    private PlanDataService()
+    private PlanSQLiteService()
     {
     }
 
