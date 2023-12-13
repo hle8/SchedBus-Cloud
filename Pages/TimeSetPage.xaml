@@ -92,7 +92,6 @@
                 </ListView>
             </Grid>
 
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -329,7 +328,7 @@
                 <Button
                     Grid.Column="0"
                     BackgroundColor="LightSlateGray"
-                    Command="{Binding DeleteCommand}"
+                    Command="{Binding DeleteTimesetCommand}"
                     FontAttributes="Bold"
                     FontSize="16"
                     Text="Delete"
@@ -337,7 +336,7 @@
                 <Button
                     Grid.Column="1"
                     BackgroundColor="LightGreen"
-                    Command="{Binding SaveCommand}"
+                    Command="{Binding SaveTimesetCommand}"
                     FontAttributes="Bold"
                     FontSize="16"
                     Text="Save"

@@ -26,12 +26,16 @@ public partial class TimeSetViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     public async Task SaveTimeset()
     {
+        var navigationParameter = new Dictionary<string, object> { { "deleteTimeset", TimeSet } };
+        await Shell.Current.GoToAsync($"..", navigationParameter);
         await Shell.Current.GoToAsync($"..");
     }
 
     [RelayCommand]
     public async Task DeleteTimeset()
     {
+        var navigationParameter = new Dictionary<string, object> { { "saveTimeset", TimeSet } };
+        await Shell.Current.GoToAsync($"..", navigationParameter);
         await Shell.Current.GoToAsync($"..");
     }
 }

@@ -48,14 +48,12 @@
                                     <VerticalStackLayout>
                                         <Label
                                             FontAutoScalingEnabled="True"
-                                            FontSize="Small"
-                                            HorizontalOptions="Center"
+                                            FontSize="Medium"
                                             Text="{Binding displayName.text}"
                                             TextColor="Black" />
                                         <Label
                                             FontAutoScalingEnabled="True"
                                             FontSize="Small"
-                                            HorizontalOptions="Center"
                                             Text="{Binding formattedAddress}"
                                             TextColor="Blue" />
                                     </VerticalStackLayout>

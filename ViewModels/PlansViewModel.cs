@@ -41,6 +41,6 @@ public partial class PlansViewModel : ObservableObject
     async Task DeletePlan(Plan plan)
     {
         await Database.DeletePlanAsync(plan);
-        Plans = await Database.GetPlansAsync();
+        Plans.Remove(plan);
     }
 }

@@ -31,17 +31,10 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
 
             OnPropertyChanged(nameof(Plan));
         }
-    }
-
-    [RelayCommand]
-    public async Task SelectPlace(Place place)
-    {
-        Plan.Destination.Name = place.displayName.text;
-        Plan.Destination.Address = place.formattedAddress;
-        Plan.Destination.Latitude = place.location.latitude;
-        Plan.Destination.Longitude = place.location.longitude;
-
-        GooglePlaces.Clear();
+        else if (query.ContainsKey("saveTimeset"))
+        {
+            var timeset = query["saveTimeset"] as TimeSet;
+        }
     }
 
     [RelayCommand]
@@ -56,6 +49,17 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
             var result = await GoogleMapsApi.RequestPlaces(text);
             GooglePlaces = result;
         }
+    }
+
+    [RelayCommand]
+    public async Task SelectPlace(Place place)
+    {
+        Plan.Destination.Name = place.displayName.text;
+        Plan.Destination.Address = place.formattedAddress;
+        Plan.Destination.Latitude = place.location.latitude;
+        Plan.Destination.Longitude = place.location.longitude;
+
+        GooglePlaces.Clear();
     }
 
     [RelayCommand]

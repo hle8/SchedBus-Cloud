@@ -12,7 +12,6 @@
     <ContentPage.Resources>
         <x:String x:Key="plus">&#x2b;</x:String>
         <x:String x:Key="map">&#xf279;</x:String>
-
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -40,23 +39,21 @@
                         Grid.Column="0"
                         Padding="8,4"
                         Background="Transparent"
-                        Stroke="Orange"
                         HorizontalOptions="Center"
-                        WidthRequest="300"
-                        StrokeThickness="2">
-
+                        Stroke="Orange"
+                        StrokeThickness="2"
+                        WidthRequest="300">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="40,40,40,40" />
                         </Border.StrokeShape>
-
-
-
                         <Entry
+                            x:Name="destinationEntry"
                             BackgroundColor="Transparent"
                             Placeholder="Chose Your Destination"
-                            Text="" />
+                            ReturnCommand="{Binding GetPlacesCommand}"
+                            ReturnCommandParameter="{Binding Text, Source={x:Reference destinationEntry}}"
+                            Text="{Binding Plan.Destination.Name}" />
                     </Border>
-
 
                     <ImageButton
                         Grid.Column="1"
@@ -72,21 +69,37 @@
                                 Color="Orange" />
                         </ImageButton.Source>
                     </ImageButton>
-
                 </Grid>
 
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="25"
-                    HorizontalOptions="Center"
-                    Text="Arrival Time"
-                    TextColor="White"
-                    VerticalTextAlignment="End" />
+                <Grid>
+                    <ListView
+                        ItemsSource="{Binding GooglePlaces}"
+                        MaximumHeightRequest="300"
+                        SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlanEditViewModel}}, Path=SelectPlaceCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Detail="{Binding formattedAddress}"
+                                    Text="{Binding displayName.text}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="25"
+                        HorizontalOptions="Center"
+                        Text="Arrival Time"
+                        TextColor="White"
+                        VerticalTextAlignment="End" />
+                </Grid>
 
                 <CollectionView
                     x:Name="TimeSetList"
-                    ItemsSource="{Binding TimeSet}"
-                    SelectionChangedCommand="{Binding SelectCommand}"
+                    ItemsSource="{Binding Plan.TimeSets}"
+                    SelectionChangedCommand="{Binding SelectTimesetCommand}"
                     SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
                     SelectionMode="Single"
                     WidthRequest="300">
@@ -134,9 +147,7 @@
                     </ImageButton.Source>
                 </ImageButton>
 
-                <Border
-                    BackgroundColor="Transparent"
-                    Stroke="Transparent">
+                <Border BackgroundColor="Transparent" Stroke="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -146,10 +157,10 @@
                             Grid.Column="0"
                             FontAttributes="Bold"
                             FontSize="16"
+                            HorizontalOptions="Start"
                             Text="Max Routes"
                             TextColor="Wheat"
-                            VerticalTextAlignment="Center"
-                            HorizontalOptions="Start"/>
+                            VerticalTextAlignment="Center" />
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
@@ -162,9 +173,7 @@
                     </Grid>
                 </Border>
 
-                <Border
-                    BackgroundColor="Transparent"
-                    Stroke="Transparent">
+                <Border BackgroundColor="Transparent" Stroke="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -173,10 +182,10 @@
                         <Label
                             FontAttributes="Bold"
                             FontSize="16"
+                            HorizontalOptions="Start"
                             Text="Vibrartion"
                             TextColor="Wheat"
-                            VerticalTextAlignment="Center"
-                            HorizontalOptions="Start"/>
+                            VerticalTextAlignment="Center" />
                         <Switch
                             Grid.Column="1"
                             HorizontalOptions="Center"
@@ -186,9 +195,7 @@
                     </Grid>
                 </Border>
 
-                <Border
-                    BackgroundColor="Transparent"
-                    Stroke="Transparent">
+                <Border BackgroundColor="Transparent" Stroke="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -198,10 +205,10 @@
                             Grid.Column="0"
                             FontAttributes="Bold"
                             FontSize="16"
+                            HorizontalOptions="Fill"
                             Text="Label"
                             TextColor="Wheat"
-                            VerticalTextAlignment="Center"
-                            HorizontalOptions="Fill"/>
+                            VerticalTextAlignment="Center" />
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
@@ -210,7 +217,7 @@
                             Keyboard="Text"
                             Placeholder="Name"
                             Text="{Binding Plan.Label}"
-                            TextColor="Wheat"/>
+                            TextColor="Wheat" />
                     </Grid>
                 </Border>
 
@@ -224,7 +231,7 @@
                         Grid.Column="0"
                         BackgroundColor="LightSlateGrey"
                         BorderColor="Orange"
-                        Command="{Binding DeleteCommand}"
+                        Command="{Binding DeletePlanCommand}"
                         FontAttributes="Bold"
                         FontSize="15"
                         Text="Delete"
@@ -234,7 +241,7 @@
                         Grid.Column="1"
                         BackgroundColor="LightGreen"
                         BorderColor="Orange"
-                        Command="{Binding SaveCommand}"
+                        Command="{Binding SavePlanCommand}"
                         FontAttributes="Bold"
                         FontSize="15"
                         Text="Save"

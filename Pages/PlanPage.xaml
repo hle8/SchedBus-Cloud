@@ -72,9 +72,10 @@
                                         HeightRequest="40"
                                         WidthRequest="40">
                                         <ImageButton.Source>
-                                            <FontImageSource FontFamily="FRF"
-                                                             Glyph="{StaticResource pen}"
-                                                             Color="Orange"/>
+                                            <FontImageSource
+                                                FontFamily="FRF"
+                                                Glyph="{StaticResource pen}"
+                                                Color="Orange" />
                                         </ImageButton.Source>
                                     </ImageButton>
 
@@ -98,15 +99,16 @@
                 Background="Transparent"
                 BorderColor="Orange"
                 BorderWidth="1"
-                Command="{Binding AddCommand}"
+                Command="{Binding AddPlanCommand}"
                 CornerRadius="20"
                 HeightRequest="50"
                 HorizontalOptions="End"
                 WidthRequest="50">
                 <ImageButton.Source>
-                    <FontImageSource FontFamily="FRF"
-                                     Glyph="{StaticResource plus}"
-                                     Color="Orange"/>
+                    <FontImageSource
+                        FontFamily="FRF"
+                        Glyph="{StaticResource plus}"
+                        Color="Orange" />
                 </ImageButton.Source>
             </ImageButton>
         </Grid>
