@@ -10,8 +10,8 @@
     BackgroundColor="Black">
 
     <ContentPage.Resources>
-        <x:String x:Key="square-pen">&#xf14b;</x:String>
-        <x:String x:Key="circle-plus">&#xf055;</x:String>
+        <x:String x:Key="pen">&#xf044;</x:String>
+        <x:String x:Key="plus">&#x2b;</x:String>
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -72,10 +72,9 @@
                                         HeightRequest="40"
                                         WidthRequest="40">
                                         <ImageButton.Source>
-                                            <FontImageSource
-                                                FontFamily="FRF"
-                                                Glyph="{StaticResource square-pen}"
-                                                Color="White" />
+                                            <FontImageSource FontFamily="FRF"
+                                                             Glyph="{StaticResource pen}"
+                                                             Color="Orange"/>
                                         </ImageButton.Source>
                                     </ImageButton>
 
@@ -98,16 +97,16 @@
                 Aspect="AspectFit"
                 Background="Transparent"
                 BorderColor="Orange"
+                BorderWidth="1"
                 Command="{Binding AddCommand}"
                 CornerRadius="20"
                 HeightRequest="50"
                 HorizontalOptions="End"
                 WidthRequest="50">
                 <ImageButton.Source>
-                    <FontImageSource
-                        FontFamily="FRF"
-                        Glyph="{StaticResource circle-plus}"
-                        Color="White" />
+                    <FontImageSource FontFamily="FRF"
+                                     Glyph="{StaticResource plus}"
+                                     Color="Orange"/>
                 </ImageButton.Source>
             </ImageButton>
         </Grid>

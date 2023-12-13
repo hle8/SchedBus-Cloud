@@ -11,6 +11,8 @@
 
     <ContentPage.Resources>
         <x:String x:Key="plus">&#x2b;</x:String>
+        <x:String x:Key="map">&#xf279;</x:String>
+
     </ContentPage.Resources>
 
     <ContentPage.BindingContext>
@@ -23,49 +25,61 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <Grid
-                Padding="10"
-                ColumnSpacing="5"
-                RowSpacing="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="80" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="80" />
-                    <RowDefinition Height="80" />
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="40" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <VerticalStackLayout Padding="10" Spacing="10">
 
                 <Label
-                    Grid.Row="0"
-                    Grid.ColumnSpan="3"
                     FontAttributes="Bold"
                     FontSize="20"
                     Text="Destination"
                     TextColor="White"
                     VerticalTextAlignment="End" />
 
-                <Frame
-                    Grid.Row="1"
-                    Grid.ColumnSpan="3"
-                    BackgroundColor="Transparent"
-                    BorderColor="Orange"
-                    CornerRadius="10">
-                    <Entry Placeholder="Your Destination" Text="" />
-                </Frame>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border
+                        Grid.Column="0"
+                        Padding="8,4"
+                        Background="Transparent"
+                        Stroke="Orange"
+                        HorizontalOptions="Center"
+                        WidthRequest="300"
+                        StrokeThickness="2">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="40,40,40,40" />
+                        </Border.StrokeShape>
+
+
+
+                        <Entry
+                            BackgroundColor="Transparent"
+                            Placeholder="Chose Your Destination"
+                            Text="" />
+                    </Border>
+
+
+                    <ImageButton
+                        Grid.Column="1"
+                        Padding="15"
+                        BackgroundColor="Transparent"
+                        BorderWidth="2"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <ImageButton.Source>
+                            <FontImageSource
+                                FontFamily="FRF"
+                                Glyph="{StaticResource map}"
+                                Color="Orange" />
+                        </ImageButton.Source>
+                    </ImageButton>
+
+                </Grid>
 
                 <Label
-                    Grid.Row="2"
-                    Grid.ColumnSpan="3"
                     FontAttributes="Bold"
                     FontSize="25"
                     HorizontalOptions="Center"
@@ -75,20 +89,17 @@
 
                 <CollectionView
                     x:Name="TimeSetList"
-                    Grid.Row="3"
-                    Grid.RowSpan="2"
-                    Grid.ColumnSpan="3"
                     ItemsSource="{Binding TimeSet}"
                     SelectionChangedCommand="{Binding SelectCommand}"
                     SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
                     SelectionMode="Single"
-                    WidthRequest="240">
+                    WidthRequest="300">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:TimeSet">
                             <Frame
                                 Margin="2"
                                 Padding="5"
-                                BackgroundColor="LightGrey">
+                                BackgroundColor="LightYellow">
                                 <Grid ColumnDefinitions="*,*,Auto">
                                     <Label
                                         Grid.Column="0"
@@ -99,7 +110,7 @@
                                     <Label
                                         Grid.Column="1"
                                         FontSize="17"
-                                        Text="{Binding Time}"
+                                        Text="{Binding Time, StringFormat='{0:hh\\:mm\\ }'}"
                                         VerticalOptions="Center" />
                                     <Switch
                                         Grid.Column="2"
@@ -112,29 +123,24 @@
                 </CollectionView>
 
                 <ImageButton
-                    Grid.Row="5"
-                    Grid.Column="1"
                     Padding="15"
                     BackgroundColor="Transparent"
                     BorderColor="Orange"
                     BorderWidth="1"
-                    CornerRadius="10"
+                    CornerRadius="20"
                     HorizontalOptions="Center"
                     VerticalOptions="Center">
                     <ImageButton.Source>
                         <FontImageSource
                             FontFamily="FRF"
                             Glyph="{StaticResource plus}"
-                            Color="White" />
+                            Color="Orange" />
                     </ImageButton.Source>
                 </ImageButton>
 
-                <Frame
-                    Grid.Row="6"
-                    Grid.ColumnSpan="3"
-                    Padding="10"
+                <Border
                     BackgroundColor="Transparent"
-                    BorderColor="Orange">
+                    Stroke="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -143,28 +149,26 @@
                         <Label
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="20"
+                            FontSize="16"
                             Text="Max Routes"
                             TextColor="Wheat"
-                            VerticalTextAlignment="Center" />
+                            VerticalTextAlignment="Center"
+                            HorizontalOptions="Start"/>
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
-                            FontSize="18"
+                            FontSize="16"
                             HorizontalTextAlignment="Center"
                             Keyboard="Numeric"
                             Placeholder="Number"
                             Text="{Binding Plan.MaxNumberOfRoutes}"
                             TextColor="Wheat" />
                     </Grid>
-                </Frame>
+                </Border>
 
-                <Frame
-                    Grid.Row="7"
-                    Grid.ColumnSpan="3"
-                    Padding="10"
+                <Border
                     BackgroundColor="Transparent"
-                    BorderColor="Orange">
+                    Stroke="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -172,10 +176,11 @@
                         </Grid.ColumnDefinitions>
                         <Label
                             FontAttributes="Bold"
-                            FontSize="20"
+                            FontSize="16"
                             Text="Vibrartion"
                             TextColor="Wheat"
-                            VerticalTextAlignment="Center" />
+                            VerticalTextAlignment="Center"
+                            HorizontalOptions="Start"/>
                         <Switch
                             Grid.Column="1"
                             HorizontalOptions="Center"
@@ -183,14 +188,11 @@
                             OnColor="ForestGreen"
                             ThumbColor="AntiqueWhite" />
                     </Grid>
-                </Frame>
+                </Border>
 
-                <Frame
-                    Grid.Row="8"
-                    Grid.ColumnSpan="3"
-                    Padding="10"
+                <Border
                     BackgroundColor="Transparent"
-                    BorderColor="Orange">
+                    Stroke="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -199,46 +201,50 @@
                         <Label
                             Grid.Column="0"
                             FontAttributes="Bold"
-                            FontSize="20"
+                            FontSize="16"
                             Text="Label"
                             TextColor="Wheat"
-                            VerticalTextAlignment="Center" />
+                            VerticalTextAlignment="Center"
+                            HorizontalOptions="Fill"/>
                         <Entry
                             Grid.Column="1"
                             FontAttributes="Italic"
-                            FontSize="18"
+                            FontSize="16"
                             HorizontalTextAlignment="Center"
                             Keyboard="Text"
                             Placeholder="Name"
                             Text="{Binding Plan.Label}"
-                            TextColor="Wheat"
-                            VerticalTextAlignment="Center" />
+                            TextColor="Wheat"/>
                     </Grid>
-                </Frame>
+                </Border>
 
-                <Button
-                    Grid.Row="9"
-                    Grid.Column="0"
-                    BackgroundColor="LightSlateGrey"
-                    BorderColor="Orange"
-                    Command="{Binding DeleteCommand}"
-                    FontAttributes="Bold"
-                    FontSize="15"
-                    Text="Delete"
-                    TextColor="Black" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <Button
-                    Grid.Row="9"
-                    Grid.Column="2"
-                    BackgroundColor="LightGreen"
-                    BorderColor="Orange"
-                    Command="{Binding SaveCommand}"
-                    FontAttributes="Bold"
-                    FontSize="15"
-                    Text="Save"
-                    TextColor="Black" />
+                    <Button
+                        Grid.Column="0"
+                        BackgroundColor="LightSlateGrey"
+                        BorderColor="Orange"
+                        Command="{Binding DeleteCommand}"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Text="Delete"
+                        TextColor="Black" />
 
-            </Grid>
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="LightGreen"
+                        BorderColor="Orange"
+                        Command="{Binding SaveCommand}"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Text="Save"
+                        TextColor="Black" />
+                </Grid>
+            </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
