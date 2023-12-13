@@ -8,8 +8,6 @@ namespace SchedBus
         {
             InitializeComponent();
 
-            Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
-            Routing.RegisterRoute(nameof(PlanPage), typeof(PlanPage));
             Routing.RegisterRoute(nameof(PlanEditPage), typeof(PlanEditPage));
             Routing.RegisterRoute(nameof(TimeSetPage), typeof(TimeSetPage));
             Routing.RegisterRoute(nameof(LocationSearch), typeof(LocationSearch));

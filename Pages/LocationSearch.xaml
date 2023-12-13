@@ -50,8 +50,8 @@
                                             FontAutoScalingEnabled="True"
                                             FontSize="Small"
                                             HorizontalOptions="Center"
-                                            Text="{Binding displayName.Values[0]}"
-                                            TextColor="Blue" />
+                                            Text="{Binding displayName.text}"
+                                            TextColor="Black" />
                                         <Label
                                             FontAutoScalingEnabled="True"
                                             FontSize="Small"
@@ -79,6 +79,7 @@
                 <Button
                     Grid.Column="1"
                     Background="Orange"
+                    Command="{Binding SaveCommand}"
                     Text="Save" />
             </Grid>
         </Grid>
