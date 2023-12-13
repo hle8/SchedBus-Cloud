@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sc="clr-namespace:Spinner.MAUI;assembly=Spinner.MAUI"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="false">
@@ -11,6 +12,15 @@
     <ContentPage.BindingContext>
         <viewmodel:TimeSetViewModel />
     </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SpinnerTimeItemStyle" TargetType="sc:SpinnerItemView">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="15" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="10">
@@ -37,51 +47,49 @@
                     VerticalOptions="Center">
                     <Label />
                 </Border>
-                <HorizontalStackLayout
-                    BindingContext="{x:Reference spn1}"
-                    HeightRequest="120"
-                    VerticalOptions="Center">
-                    <sc:Spinner
-                        x:Name="spn1"
-                        BindingContext="{x:Reference mainpage}"
-                        IsCyclic="True"
-                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
-                        Items="{Binding Hours}"
-                        SelectedItemIndex="{Binding Hour}"
-                        SelectionBoxIsVisible="False"
-                        VerticalOptions="Center"
-                        WidthRequest="120" />
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="25"
-                        Text=":"
-                        TextColor="Wheat"
-                        VerticalOptions="Center" />
-                    <sc:Spinner
-                        BindingContext="{x:Reference mainpage}"
-                        IsCyclic="True"
-                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
-                        Items="{Binding Minutes}"
-                        SelectedItemIndex="{Binding Minute}"
-                        SelectionBoxIsVisible="False"
-                        VerticalOptions="Center"
-                        WidthRequest="120" />
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="25"
-                        Text=":"
-                        TextColor="Wheat"
-                        VerticalOptions="Center" />
-                    <sc:Spinner
-                        BindingContext="{x:Reference mainpage}"
-                        IsCyclic="True"
-                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
-                        Items="{Binding AMPM}"
-                        SelectedItemIndex="{Binding AMPM}"
-                        SelectionBoxIsVisible="False"
-                        VerticalOptions="Center"
-                        WidthRequest="100" />
-                </HorizontalStackLayout>
+                <ListView x:Name="TimeSetListView" ItemsSource="{Binding TimeSets}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <sc:Spinner
+                                        x:Name="spnHour"
+                                        Grid.Column="0"
+                                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
+                                        Items="{x:Static sys:String.Empty}"
+                                        SelectedItem="{Binding Hour}"
+                                        SelectionBoxIsVisible="False"
+                                        VerticalOptions="Center"
+                                        WidthRequest="120" />
+
+                                    <sc:Spinner
+                                        x:Name="spnMinute"
+                                        Grid.Column="1"
+                                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
+                                        Items="{x:Static sys:String.Empty}"
+                                        SelectedItem="{Binding Minute}"
+                                        SelectionBoxIsVisible="False"
+                                        VerticalOptions="Center"
+                                        WidthRequest="120" />
+                                    <sc:Spinner
+                                        x:Name="spnAMPM"
+                                        Grid.Column="2"
+                                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
+                                        Items="{x:Static sys:String.Empty}"
+                                        SelectedItem="{Binding AMPM}"
+                                        SelectionBoxIsVisible="False"
+                                        VerticalOptions="Center"
+                                        WidthRequest="120" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
 
 
