@@ -4,39 +4,33 @@ using SchedBus.Models;
 
 namespace SchedBus.ViewModels;
 
-public class TimeSetViewModel : ObservableObject, IQueryAttributable
+public partial class TimeSetViewModel : ObservableObject, IQueryAttributable
 {
-    public TimeSet TimeSet { get; set; }
-
-    public IAsyncRelayCommand SaveCommand { get; }
-    public IAsyncRelayCommand DeleteCommand { get; }
+    [ObservableProperty]
+    public TimeSet timeSet;
 
     public TimeSetViewModel()
     {
         TimeSet = new TimeSet();
-        SaveCommand = new AsyncRelayCommand(Save);
-        DeleteCommand = new AsyncRelayCommand(Delete);
     }
 
     void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.ContainsKey("selectedtimeset"))
+        if (query.ContainsKey("selectedTimeset"))
         {
-            TimeSet = query["selectedtimeset"] as TimeSet;
-
-            OnPropertyChanged(nameof(TimeSet));
+            TimeSet = query["selectedTimeset"] as TimeSet;
         }
     }
 
-    public async Task Save()
+    [RelayCommand]
+    public async Task SaveTimeset()
     {
-        //var timeSetId = await SqliteDataStore.SaveTimeSetAsync(_timeset, _planId);
         await Shell.Current.GoToAsync($"..");
     }
 
-    public async Task Delete()
+    [RelayCommand]
+    public async Task DeleteTimeset()
     {
-        //await SqliteDataStore.RemoveNotUsedTimeSetAsync(_timeset.Id, _planId);
         await Shell.Current.GoToAsync($"..");
     }
 }
