@@ -12,12 +12,15 @@ public partial class LocationSearchViewModel : ObservableObject
     protected static GoogleMapsApiService GoogleMapsApi => GoogleMapsApiService.Instance;
 
     [ObservableProperty]
-    ObservableCollection<GooglePlace> googlePlaces;
+    ObservableCollection<Place> googlePlaces;
 
     [ObservableProperty]
     string searchText;
 
-    public LocationSearchViewModel() { GooglePlaces = []; }
+    public LocationSearchViewModel()
+    {
+        GooglePlaces = [];
+    }
 
     [RelayCommand]
     public async Task GetPlaces(string text)
@@ -29,14 +32,31 @@ public partial class LocationSearchViewModel : ObservableObject
         else
         {
             var result = await GoogleMapsApi.RequestPlaces(text);
-            GooglePlaces = result.places;
+            GooglePlaces = result;
         }
     }
 
     [RelayCommand]
-    public void SelectPlace(GooglePlace place)
+    public void SelectPlace(Place place)
     {
-        SearchText = place.displayName["text"];
+        SearchText = place.displayName.text;
         GooglePlaces.Clear();
+    }
+
+    [RelayCommand]
+    public async Task Save()
+    {
+        if (string.IsNullOrEmpty(SearchText))
+        {
+            Console.WriteLine("Alert", "Destination cannot be empty!", "OK");
+            return;
+        }
+        await Shell.Current.GoToAsync($"..");
+    }
+
+    [RelayCommand]
+    public async Task Delete()
+    {
+        await Shell.Current.GoToAsync($"..");
     }
 }

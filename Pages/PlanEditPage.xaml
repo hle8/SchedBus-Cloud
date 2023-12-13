@@ -19,10 +19,6 @@
         <viewmodel:PlanEditViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior Command="{Binding GetCommand}" EventName="Appearing" />
-    </ContentPage.Behaviors>
-
     <ContentPage.Content>
         <ScrollView>
             <VerticalStackLayout Padding="10" Spacing="10">

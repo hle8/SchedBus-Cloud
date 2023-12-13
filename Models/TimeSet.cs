@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace SchedBus.Models;
 
@@ -16,7 +17,6 @@ namespace SchedBus.Models;
    * - RepeatedOnSunday    | is the set time repeated on Sunday
    */
 
-[Table("TimeSet")]
 public class TimeSet
 {
     [PrimaryKey, AutoIncrement]
@@ -31,4 +31,7 @@ public class TimeSet
     public bool RepeatedOnFriday { get; set; }
     public bool RepeatedOnSaturday { get; set; }
     public bool RepeatedOnSunday { get; set; }
+
+    [ForeignKey(typeof(Plan))]
+    public int PlanId { get; set; }
 }

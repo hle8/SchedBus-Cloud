@@ -6,59 +6,76 @@ using System.Collections.ObjectModel;
 
 namespace SchedBus.ViewModels;
 
-public class PlanEditViewModel : ObservableObject, IQueryAttributable
+public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
 {
     protected static PlanSQLiteService Database => PlanSQLiteService.Instance;
+    protected static GoogleMapsApiService GoogleMapsApi => GoogleMapsApiService.Instance;
 
-    public Plan Plan { get; set; }
-    public ObservableCollection<TimeSet> TimeSet { get; set; }
+    [ObservableProperty]
+    public ObservableCollection<Place> googlePlaces;
 
-    public IAsyncRelayCommand GetCommand { get; }
-    public IAsyncRelayCommand SelectCommand { get; }
-    public IAsyncRelayCommand SaveCommand { get; }
-    public IAsyncRelayCommand DeleteCommand { get; }
+    [ObservableProperty]
+    public Plan plan;
 
     public PlanEditViewModel()
     {
         Plan = new Plan();
-        TimeSet = new ObservableCollection<TimeSet>();
-        GetCommand = new AsyncRelayCommand(GetAsync);
-        SelectCommand = new AsyncRelayCommand<TimeSet>(SelectAsync);
-        SaveCommand = new AsyncRelayCommand(SaveAsync);
-        DeleteCommand = new AsyncRelayCommand(DeleteAsync);
+        GooglePlaces = new ObservableCollection<Place>();
     }
 
     void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.ContainsKey("selectedplan"))
+        if (query.ContainsKey("selectedPlan"))
         {
-            Plan = query["selectedplan"] as Plan;
+            Plan = query["selectedPlan"] as Plan;
 
             OnPropertyChanged(nameof(Plan));
         }
     }
 
-    public async Task GetAsync()
+    [RelayCommand]
+    public async Task SelectPlace(Place place)
     {
-        TimeSet = await Database.GetTimeSetOfPlanAsync(Plan.Id);
-        OnPropertyChanged(nameof(TimeSet));
+        Plan.Destination.Name = place.displayName.text;
+        Plan.Destination.Address = place.formattedAddress;
+        Plan.Destination.Latitude = place.location.latitude;
+        Plan.Destination.Longitude = place.location.longitude;
+
+        GooglePlaces.Clear();
     }
 
-    public async Task SelectAsync(TimeSet timSet)
+    [RelayCommand]
+    public async Task GetPlaces(string text)
     {
-        var navigationParameter = new Dictionary<string, object>() { { "selectedtimeset", timSet } };
+        if (string.IsNullOrEmpty(text))
+        {
+            GooglePlaces.Clear();
+        }
+        else
+        {
+            var result = await GoogleMapsApi.RequestPlaces(text);
+            GooglePlaces = result;
+        }
+    }
+
+    [RelayCommand]
+    public async Task SelectTimeset(TimeSet timset)
+    {
+        var navigationParameter = new Dictionary<string, object>() { { "selectedTimeset", timset } };
         await Shell.Current.GoToAsync($"{nameof(Pages.TimeSetPage)}", navigationParameter);
     }
 
-    public async Task SaveAsync()
+    [RelayCommand]
+    public async Task SavePlan()
     {
-        // await Database.SavePlanAsync(_plan);
+        await Database.SavePlanAsync(Plan);
         await Shell.Current.GoToAsync($"..");
     }
 
-    public async Task DeleteAsync()
+    [RelayCommand]
+    public async Task DeletePlan()
     {
-        // await Database.DeleteDbAsync(_plan);
+        await Database.DeletePlanAsync(Plan);
         await Shell.Current.GoToAsync($"..");
     }
 }

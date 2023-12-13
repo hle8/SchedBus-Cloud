@@ -2,20 +2,31 @@
 
 namespace SchedBus.Models;
 
-public class GooglePlace
+public class DisplayName
 {
-    public string? formattedName { get; set; }
+    public string? text { set; get; }
+    public string? languageCode { set; get; }
+}
+
+public class LatLng
+{
+    public double latitude { get; set; }
+    public double longitude { get; set; }
+}
+
+public class Place
+{
     public string? formattedAddress { get; set; }
-    public Dictionary<string, double>? location { get; set; }
-    public Dictionary<string, string>? displayName { get; set; }
+    public LatLng? location { get; set; }
+    public DisplayName? displayName { get; set; }
 }
 
-public class GooglePlaces
+public class Places
 {
-    public ObservableCollection<GooglePlace>? places { get; set; }
+    public ObservableCollection<Place>? places { get; set; }
 }
 
-public class GooglePlaceQuery
+public class PlaceQuery
 {
     public string? textQuery { get; set; }
 }
