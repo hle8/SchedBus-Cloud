@@ -9,9 +9,7 @@ namespace SchedBus
         {
             InitializeComponent();
 
-            var newWindow = new NavigationPage(new SplashPage());
-            MainPage = newWindow;
-            // MainPage = new AppShell();
+            MainPage = new AppShell();
         }
     }
 }

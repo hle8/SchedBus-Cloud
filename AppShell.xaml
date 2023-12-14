@@ -18,7 +18,7 @@
             Title="Plans"
             Icon="ballot.png"
             Route="plans">
-            <ShellContent ContentTemplate="{DataTemplate page:TimeSetPage}" />
+            <ShellContent ContentTemplate="{DataTemplate page:PlanEditPage}" />
         </Tab>
     </TabBar>
 

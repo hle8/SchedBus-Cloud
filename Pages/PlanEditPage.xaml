@@ -50,6 +50,7 @@
                             x:Name="destinationEntry"
                             BackgroundColor="Transparent"
                             Placeholder="Chose Your Destination"
+                            TextColor="Wheat"
                             ReturnCommand="{Binding GetPlacesCommand}"
                             ReturnCommandParameter="{Binding Text, Source={x:Reference destinationEntry}}"
                             Text="{Binding Plan.Destination.Name}" />
@@ -105,10 +106,16 @@
                     WidthRequest="300">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:TimeSet">
-                            <Frame
+                            <Border
                                 Margin="2"
                                 Padding="5"
-                                BackgroundColor="LightYellow">
+                                BackgroundColor="LightYellow"
+                                Stroke="Orange">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="40,40,40,40" />
+                                </Border.StrokeShape>
+
                                 <Grid ColumnDefinitions="*,*,Auto">
                                     <Label
                                         Grid.Column="0"
@@ -126,7 +133,7 @@
                                         IsToggled="{Binding IsEnabled}"
                                         VerticalOptions="Center" />
                                 </Grid>
-                            </Frame>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

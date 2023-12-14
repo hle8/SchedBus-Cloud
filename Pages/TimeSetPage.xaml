@@ -21,10 +21,13 @@
                 Text="Choose your time"
                 TextColor="Wheat" />
 
-            <Frame
+            <Border
                 BackgroundColor="Transparent"
-                BorderColor="Orange"
-                HeightRequest="125">
+                HeightRequest="125"
+                Stroke="Orange">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="40,40,40,40" />
+                </Border.StrokeShape>
                 <TimePicker
                     FontAttributes="Bold"
                     FontSize="60"
@@ -32,8 +35,8 @@
                     HorizontalOptions="CenterAndExpand"
                     TextColor="Wheat"
                     Time="{Binding TimeSet.Time}"
-                    VerticalOptions="CenterAndExpand" />
-            </Frame>
+                    VerticalOptions="Center" />
+            </Border>
 
             <Grid>
                 <Grid.ColumnDefinitions>
