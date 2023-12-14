@@ -1,4 +1,5 @@
-﻿using SchedBus.Services;
+﻿using SchedBus.Pages;
+using SchedBus.Services;
 
 namespace SchedBus
 {
@@ -8,7 +9,9 @@ namespace SchedBus
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            var newWindow = new NavigationPage(new SplashPage());
+            MainPage = newWindow;
+            // MainPage = new AppShell();
         }
     }
 }

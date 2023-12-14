@@ -13,15 +13,6 @@
         <viewmodel:TimeSetViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="SpinnerTimeItemStyle" TargetType="sc:SpinnerItemView">
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="FontSize" Value="15" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="10">
             <Label
@@ -30,64 +21,19 @@
                 Text="Choose your time"
                 TextColor="Wheat" />
 
-            <Border
-                Background="Transparent"
-                HorizontalOptions="Center"
-                Stroke="Orange"
-                StrokeShape="RoundRectangle 10"
-                VerticalOptions="Center" />
-            <Grid>
-                <Border
-                    Margin="2,0,2,0"
-                    Background="Transparent"
-                    BackgroundColor="Transparent"
-                    HeightRequest="100"
-                    Stroke="Orange"
-                    StrokeShape="RoundRectangle 10"
-                    VerticalOptions="Center">
-                    <Label />
-                </Border>
-                <ListView x:Name="TimeSetListView" ItemsSource="{Binding TimeSets}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <sc:Spinner
-                                        x:Name="spnHour"
-                                        Grid.Column="0"
-                                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
-                                        SelectedItem="{Binding Hour}"
-                                        SelectionBoxIsVisible="False"
-                                        VerticalOptions="Center"
-                                        WidthRequest="120" />
-
-                                    <sc:Spinner
-                                        x:Name="spnMinute"
-                                        Grid.Column="1"
-                                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
-                                        SelectedItem="{Binding Minute}"
-                                        SelectionBoxIsVisible="False"
-                                        VerticalOptions="Center"
-                                        WidthRequest="120" />
-                                    <sc:Spinner
-                                        x:Name="spnAMPM"
-                                        Grid.Column="2"
-                                        ItemStyle="{StaticResource Key=SpinnerTimeItemStyle}"
-                                        SelectedItem="{Binding AMPM}"
-                                        SelectionBoxIsVisible="False"
-                                        VerticalOptions="Center"
-                                        WidthRequest="120" />
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+            <Frame
+                BackgroundColor="Transparent"
+                BorderColor="Orange"
+                HeightRequest="125">
+                <TimePicker
+                    FontAttributes="Bold"
+                    FontSize="60"
+                    Format="hh:mm tt"
+                    HorizontalOptions="CenterAndExpand"
+                    TextColor="Wheat"
+                    Time="{Binding TimeSet.Time}"
+                    VerticalOptions="CenterAndExpand" />
+            </Frame>
 
             <Grid>
                 <Grid.ColumnDefinitions>
