@@ -18,10 +18,14 @@ public class Plan
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
+    [Unique, MaxLength(100)]
     public string? Label { get; set; }
     public int MaxNumberOfRoutes { get; set; }
     public bool Notification { get; set; }
     public bool Vibration { get; set; }
+
+    [Ignore]
+    public string? TodayDate { get; set; }
 
     [ForeignKey(typeof(Destination))]
     public int DestinationId { get; set; }

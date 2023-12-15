@@ -1,4 +1,6 @@
-﻿namespace SchedBus.Models;
+﻿using System.Runtime.Intrinsics.Arm;
+
+namespace SchedBus.Models;
 
 public class GoogleRoutesApi
 {
@@ -24,10 +26,16 @@ public class GoogleRoutesApi
         public string? text { get; set; }
     }
 
-    public class LocalizedValues
+    public class ArrDepTime
     {
         public Time? time { get; set; }
         public string? timeZone { get; set; }
+    }
+
+    public class LocalizedValues
+    {
+        public ArrDepTime? arrivalTime { get; set; }
+        public ArrDepTime? departureTime { get; set; }
     }
 
     public class Agency
@@ -98,8 +106,13 @@ public class GoogleRoutesApi
 
     public class InputPlace
     {
-        public string? address { get; set; }
         public Location? location { get; set; }
+    }
+
+    public class TransitPreferences
+    {
+        public string? routingPreference {  get; set; }
+        public string[]? allowedTravelModes { get; set; }
     }
 
     public class RouteQurery
@@ -107,8 +120,10 @@ public class GoogleRoutesApi
         public InputPlace? origin { get; set; }
         public InputPlace? destination { get; set; }
         public string? travelMode { get; set; }
+        public bool computeAlternativeRoutes { get; set; }
         public string? arrivalTime { get; set; }
         public string? departureTime { get; set; }
+        public TransitPreferences transitPreferences { get; set; }
     }
 
 }
