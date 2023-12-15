@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json;
-using static SchedBus.Models.GoogleRoutesApi;
 
 namespace SchedBus.Services;
 
@@ -31,11 +30,11 @@ public class GoogleMapsApiService
 
     static bool IsConnected() => Connectivity.Current.NetworkAccess != NetworkAccess.None;
 
-    public async Task<ObservableCollection<Place>?> RequestPlaces(string text)
+    public async Task<ObservableCollection<GooglePlacesApi.Place>?> RequestPlaces(string text)
     {
         if (!IsConnected()) return null;
 
-        var query = new PlaceQuery
+        var query = new GooglePlacesApi.PlaceQuery
         {
             textQuery = text
         };
@@ -50,7 +49,7 @@ public class GoogleMapsApiService
         };
 
         request.Headers.Add("X-Goog-Api-Key", _apiKey);
-        request.Headers.Add("X-Goog-FieldMask", "places.displayName,places.formattedAddress");
+        request.Headers.Add("X-Goog-FieldMask", "places.displayName,places.formattedAddress,places.location");
 
         try
         {
@@ -59,7 +58,7 @@ public class GoogleMapsApiService
 
             var responseBody = await response.Content.ReadAsStringAsync();
 
-            var result = JsonSerializer.Deserialize<Places>(responseBody);
+            var result = JsonSerializer.Deserialize<GooglePlacesApi.Places>(responseBody);
 
             return result?.places;
         }
@@ -69,13 +68,21 @@ public class GoogleMapsApiService
         }
     }
 
-    public async Task<List<Leg>?> RequestRoutes(string text)
+    public async Task<ObservableCollection<GoogleRoutesApi.Route>?> RequestRoutes(GoogleRoutesApi.InputPlace origin, GoogleRoutesApi.InputPlace destination)
     {
         if (!IsConnected()) return null;
 
-        var query = new PlaceQuery
+        var query = new GoogleRoutesApi.RouteQurery
         {
-            textQuery = text
+            origin = origin,
+            destination = destination,
+            travelMode = "TRANSIT",
+            computeAlternativeRoutes = true,
+            transitPreferences = new GoogleRoutesApi.TransitPreferences
+            {
+                routingPreference = "LESS_WALKING",
+                allowedTravelModes = ["BUS"]
+            }
         };
 
         var jsonString = JsonSerializer.Serialize(query);
@@ -97,9 +104,9 @@ public class GoogleMapsApiService
 
             var responseBody = await response.Content.ReadAsStringAsync();
 
-            var result = JsonSerializer.Deserialize<Route>(responseBody);
+            var result = JsonSerializer.Deserialize<GoogleRoutesApi.Root>(responseBody);
 
-            return result?.legs;
+            return new ObservableCollection<GoogleRoutesApi.Route>(result.routes);
         }
         catch (HttpRequestException)
         {

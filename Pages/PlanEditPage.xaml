@@ -61,6 +61,7 @@
                         Padding="15"
                         BackgroundColor="Transparent"
                         BorderWidth="2"
+                        Command="{Binding SearchByMapCommand}"
                         HorizontalOptions="Center"
                         VerticalOptions="Center">
                         <ImageButton.Source>
@@ -74,6 +75,7 @@
 
                 <Grid>
                     <ListView
+                        BackgroundColor="White"
                         ItemsSource="{Binding GooglePlaces}"
                         MaximumHeightRequest="300"
                         SelectionMode="Single">
@@ -122,11 +124,13 @@
                                         Padding="2"
                                         FontSize="18"
                                         Text="Custom"
+                                        TextColor="Black"
                                         VerticalOptions="Center" />
                                     <Label
                                         Grid.Column="1"
                                         FontSize="17"
                                         Text="{Binding Time, StringFormat='{0:hh\\:mm\\ }'}"
+                                        TextColor="Black"
                                         VerticalOptions="Center" />
                                     <Switch
                                         Grid.Column="2"
@@ -143,6 +147,7 @@
                     BackgroundColor="Transparent"
                     BorderColor="Orange"
                     BorderWidth="1"
+                    Command="{Binding AddTimeSetCommand}"
                     CornerRadius="20"
                     HorizontalOptions="Center"
                     VerticalOptions="Center">

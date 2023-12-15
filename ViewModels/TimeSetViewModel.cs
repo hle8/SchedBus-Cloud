@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SchedBus.Models;
-using System.Collections.ObjectModel;
 
 namespace SchedBus.ViewModels;
 
@@ -26,16 +25,28 @@ public partial class TimeSetViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     public async Task SaveTimeset()
     {
-        var navigationParameter = new Dictionary<string, object> { { "deleteTimeset", TimeSet } };
-        await Shell.Current.GoToAsync($"..", navigationParameter);
-        await Shell.Current.GoToAsync($"..");
+        if (TimeSet != null) 
+        {
+            var navigationParameter = new Dictionary<string, object> { { "deleteTimeset", TimeSet } };
+            await Shell.Current.GoToAsync($"..", navigationParameter);
+        }
+        else
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
     }
 
     [RelayCommand]
     public async Task DeleteTimeset()
     {
-        var navigationParameter = new Dictionary<string, object> { { "saveTimeset", TimeSet } };
-        await Shell.Current.GoToAsync($"..", navigationParameter);
-        await Shell.Current.GoToAsync($"..");
+        if (TimeSet != null) 
+        {
+            var navigationParameter = new Dictionary<string, object> { { "saveTimeset", TimeSet } };
+            await Shell.Current.GoToAsync($"..", navigationParameter);
+        }
+        else
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
     }
 }

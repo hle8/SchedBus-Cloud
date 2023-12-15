@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
-
-
 namespace SchedBus
 {
     public static class MauiProgram
@@ -19,7 +17,6 @@ namespace SchedBus
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -36,9 +33,6 @@ namespace SchedBus
 #endif
 
             return builder.Build();
-
-
-
         }
     }
 }

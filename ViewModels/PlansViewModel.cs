@@ -22,6 +22,7 @@ public partial class PlansViewModel : ObservableObject
     public async Task GetPlan()
     {
         Plans = await Database.GetPlansAsync();
+        var todayDate = DateTime.Now;
     }
 
     [RelayCommand]

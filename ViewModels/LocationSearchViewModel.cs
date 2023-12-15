@@ -3,6 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using SchedBus.Models;
 using SchedBus.Services;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls.Maps;
+using Microsoft.Maui.Maps;
+using Map = Microsoft.Maui.Controls.Maps.Map;
 
 namespace SchedBus.ViewModels;
 
@@ -12,14 +15,17 @@ public partial class LocationSearchViewModel : ObservableObject
     protected static GoogleMapsApiService GoogleMapsApi => GoogleMapsApiService.Instance;
 
     [ObservableProperty]
-    ObservableCollection<Place> googlePlaces;
+    ObservableCollection<GooglePlacesApi.Place> googlePlaces;
 
     [ObservableProperty]
-    string searchText;
+    string? searchResult;
+
+    Destination Destination { get; set; }
 
     public LocationSearchViewModel()
     {
-        GooglePlaces = [];
+        GooglePlaces = new ObservableCollection<GooglePlacesApi.Place>();
+        Destination = new Destination();
     }
 
     [RelayCommand]
@@ -31,31 +37,40 @@ public partial class LocationSearchViewModel : ObservableObject
         }
         else
         {
-            var result = await GoogleMapsApi.RequestPlaces(text);
-            GooglePlaces = result;
+            GooglePlaces = await GoogleMapsApi.RequestPlaces(text);
         }
     }
 
     [RelayCommand]
-    public void SelectPlace(Place place)
+    public void SelectPlace(GooglePlacesApi.Place place)
     {
-        SearchText = place.displayName.text;
+        SearchResult = place.displayName.text;
+
+        Destination.Name = place.displayName.text;
+        Destination.Address = place.formattedAddress;
+        Destination.Latitude = place.location.latitude;
+        Destination.Longitude = place.location.longitude;
+
         GooglePlaces.Clear();
     }
 
     [RelayCommand]
     public async Task Save()
     {
-        if (string.IsNullOrEmpty(SearchText))
+        if (string.IsNullOrEmpty(SearchResult))
         {
-            Console.WriteLine("Alert", "Destination cannot be empty!", "OK");
+            Console.WriteLine("Alert", "Destination cannot be empty!");
             return;
         }
-        await Shell.Current.GoToAsync($"..");
+        else
+        {
+            var navigationParameter = new Dictionary<string, object> { { "destination", Destination } };
+            await Shell.Current.GoToAsync($"..", navigationParameter);
+        }
     }
 
     [RelayCommand]
-    public async Task Delete()
+    public async Task Back()
     {
         await Shell.Current.GoToAsync($"..");
     }

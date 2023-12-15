@@ -29,6 +29,9 @@
                 EmptyView="No plan here, tap (+) button to add"
                 ItemsSource="{Binding Plans}"
                 SelectionMode="Single">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Plan">
                         <SwipeView>
@@ -41,7 +44,6 @@
                                 </SwipeItems>
                             </SwipeView.RightItems>
                             <Frame
-                                Margin="5"
                                 Padding="0"
                                 BackgroundColor="Transparent"
                                 BorderColor="Orange"

@@ -12,7 +12,7 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     protected static GoogleMapsApiService GoogleMapsApi => GoogleMapsApiService.Instance;
 
     [ObservableProperty]
-    public ObservableCollection<Place> googlePlaces;
+    public ObservableCollection<GooglePlacesApi.Place> googlePlaces;
 
     [ObservableProperty]
     public Plan plan;
@@ -20,7 +20,7 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     public PlanEditViewModel()
     {
         Plan = new Plan();
-        GooglePlaces = new ObservableCollection<Place>();
+        GooglePlaces = new ObservableCollection<GooglePlacesApi.Place>();
     }
 
     void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
@@ -28,12 +28,56 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
         if (query.ContainsKey("selectedPlan"))
         {
             Plan = query["selectedPlan"] as Plan;
-
-            OnPropertyChanged(nameof(Plan));
         }
         else if (query.ContainsKey("saveTimeset"))
         {
+            int index = 0;
             var timeset = query["saveTimeset"] as TimeSet;
+            if (timeset.Id != 0)
+            {
+                foreach (var item in Plan.TimeSets)
+                {
+                    if (item.Id == timeset.Id)
+                    {
+                        index = Plan.TimeSets.IndexOf(item);
+                        break;
+                    }
+                }
+                Plan.TimeSets[index] = timeset;
+            }
+            else
+            {
+                if (Plan.TimeSets.Any(i => i.Time == timeset.Time))
+                {
+                    Console.WriteLine("Duplicated Time! Cannot Save");
+                }
+                else
+                {
+                    Plan.TimeSets.Add(timeset);
+                }
+            }
+        }
+        else if (query.ContainsKey("deleteTimeset"))
+        {
+            var timeset = query["deleteTimeset"] as TimeSet;
+            if (timeset.Id != 0)
+            {
+                if (Plan.TimeSets.Count > 0)
+                {
+                    foreach (var item in Plan.TimeSets)
+                    {
+                        if (item.Id == timeset.Id)
+                        {
+                            Plan.TimeSets.Remove(item);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (query.ContainsKey("destination"))
+        {
+            Plan.Destination = query["destination"] as Destination;
         }
     }
 
@@ -46,13 +90,12 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
         }
         else
         {
-            var result = await GoogleMapsApi.RequestPlaces(text);
-            GooglePlaces = result;
+            GooglePlaces = await GoogleMapsApi.RequestPlaces(text);
         }
     }
 
     [RelayCommand]
-    public async Task SelectPlace(Place place)
+    public void SelectPlace(GooglePlacesApi.Place place)
     {
         Plan.Destination.Name = place.displayName.text;
         Plan.Destination.Address = place.formattedAddress;
@@ -60,6 +103,18 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
         Plan.Destination.Longitude = place.location.longitude;
 
         GooglePlaces.Clear();
+    }
+
+    [RelayCommand]
+    public async Task SearchByMap()
+    {
+        await Shell.Current.GoToAsync($"{nameof(Pages.LocationSearch)}");
+    }
+
+    [RelayCommand]
+    public async Task AddTimeSet()
+    {
+        await Shell.Current.GoToAsync($"{nameof(Pages.TimeSetPage)}");
     }
 
     [RelayCommand]
@@ -72,14 +127,28 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     public async Task SavePlan()
     {
-        await Database.SavePlanAsync(Plan);
-        await Shell.Current.GoToAsync($"..");
+        if (Plan.Destination != null)
+        {
+            await Database.SavePlanAsync(Plan);
+            await Shell.Current.GoToAsync($"..");
+        }
+        else
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
     }
 
     [RelayCommand]
     public async Task DeletePlan()
     {
-        await Database.DeletePlanAsync(Plan);
-        await Shell.Current.GoToAsync($"..");
+        if( Plan.Id != 0 )
+        {
+            await Database.DeletePlanAsync(Plan);
+            await Shell.Current.GoToAsync($"..");
+        }
+        else
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
     }
 }

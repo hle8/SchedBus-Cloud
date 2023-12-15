@@ -44,6 +44,11 @@ public class PlanSQLiteService
 
     async void SampleData()
     {
+        // Clear table
+        await _database.QueryAsync<Plan>($"DELETE FROM {nameof(Plan)}");
+        await _database.QueryAsync<Plan>($"DELETE FROM {nameof(Destination)}");
+        await _database.QueryAsync<Plan>($"DELETE FROM {nameof(TimeSet)}");
+
         var random = new Random();
         var start = TimeSpan.FromHours(0);
         var end = TimeSpan.FromHours(23);
