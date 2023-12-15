@@ -16,6 +16,10 @@
         <toolkit:EventToCommandBehavior Command="{Binding GetPlansCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
 
+    <ContentPage.Resources>
+        <x:String x:Key="arrow">&#xf35a;</x:String>
+    </ContentPage.Resources>
+
     <Grid RowDefinitions="*">
         <map:Map
             x:Name="map"
@@ -27,15 +31,23 @@
                 Grid.Row="0"
                 Padding="20"
                 VerticalOptions="Start">
-                <SearchBar
-                    x:Name="searchBar"
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Background="Orange"
-                    Placeholder="Search"
-                    SearchCommand="{Binding GetPlacesCommand}"
-                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
-                    Text="{Binding SearchResult}" />
+                <Border BackgroundColor="LightGoldenrodYellow" WidthRequest="270">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <SearchBar
+                        x:Name="searchBar"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        Background="LightGoldenrodYellow"
+                        Placeholder="Where are you heading?"
+                        SearchCommand="{Binding GetPlacesCommand}"
+                        SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                        Text="{Binding SearchResult}"
+                        TextColor="Black"
+                        VerticalOptions="StartAndExpand"
+                        WidthRequest="280" />
+                </Border>
                 <CollectionView
                     Background="Snow"
                     ItemsSource="{Binding GooglePlaces}"
@@ -54,6 +66,7 @@
                                             Text="{Binding displayName.text}"
                                             TextColor="Black" />
                                         <Label
+                                            BackgroundColor="White"
                                             FontAutoScalingEnabled="True"
                                             FontSize="Small"
                                             LineBreakMode="TailTruncation"
@@ -80,10 +93,11 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <VerticalStackLayout>
-                                <Frame>
+                                <Frame BackgroundColor="LightGoldenrodYellow">
                                     <Grid ColumnDefinitions="*,Auto">
                                         <Label
                                             Grid.Column="0"
+                                            FontSize="18"
                                             Text="{Binding Destination.Name}"
                                             TextColor="Black" />
                                         <Label Grid.Column="1" Text="{Binding TodayDate}" />
@@ -98,86 +112,95 @@
                 Grid.Row="1"
                 IsVisible="{Binding IsRoutesViewEnabled}"
                 VerticalOptions="End">
-                <VerticalStackLayout>
-                    <Button Command="{Binding CloseRouteListCommand}" Text="Close" />
-                    <CollectionView
-                        Background="WhiteSmoke"
-                        ItemsSource="{Binding GoogleRoutes}"
-                        MaximumHeightRequest="250">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <CollectionView ItemsSource="{Binding legs}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <CollectionView
-                                                Background="Transparent"
-                                                ItemsLayout="HorizontalList"
-                                                ItemsSource="{Binding steps}">
-                                                <CollectionView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <HorizontalStackLayout>
-                                                            <Frame Padding="10">
-                                                                <Grid RowDefinitions="Auto,Auto">
-                                                                    <Label
-                                                                        Grid.Row="0"
-                                                                        Text="{Binding transitDetails.stopDetails.departureStop.name}"
-                                                                        TextColor="Black" />
-                                                                    <Label
-                                                                        Grid.Row="1"
-                                                                        Text="{Binding transitDetails.localizedValues.departureTime.time.text}"
-                                                                        TextColor="Black" />
-                                                                </Grid>
-                                                            </Frame>
-                                                            <Label
-                                                                FontAttributes="Bold"
-                                                                Text="&gt;"
-                                                                TextColor="Black"
-                                                                VerticalOptions="Center" />
-                                                            <Frame Padding="10">
-                                                                <Grid RowDefinitions="Auto,Auto">
-                                                                    <Label
-                                                                        Grid.Row="0"
-                                                                        HorizontalOptions="Center"
-                                                                        Text="{Binding transitDetails.headsign}"
-                                                                        TextColor="Black" />
-                                                                    <Label
-                                                                        Grid.Row="1"
-                                                                        HorizontalOptions="Center"
-                                                                        Text="{Binding transitDetails.transitLine.nameShort, StringFormat='Bus - {0}'}"
-                                                                        TextColor="Black" />
-                                                                </Grid>
-                                                            </Frame>
-                                                            <Label
-                                                                FontAttributes="Bold"
-                                                                Text="&gt;"
-                                                                TextColor="Black"
-                                                                VerticalOptions="Center" />
-                                                            <Frame Padding="10">
-                                                                <Grid RowDefinitions="Auto,Auto">
-                                                                    <Label
-                                                                        Grid.Row="0"
-                                                                        Text="{Binding transitDetails.stopDetails.arrivalStop.name}"
-                                                                        TextColor="Black" />
-                                                                    <Label
-                                                                        Grid.Row="1"
-                                                                        Text="{Binding transitDetails.localizedValues.arrivalTime.time.text}"
-                                                                        TextColor="Black" />
-                                                                </Grid>
-                                                            </Frame>
-                                                        </HorizontalStackLayout>
-                                                    </DataTemplate>
-                                                </CollectionView.ItemTemplate>
-                                            </CollectionView>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
+                <Frame Padding="5">
+                    <VerticalStackLayout Background="WhiteSmoke" Spacing="5">
+                        <Button Command="{Binding CloseRouteListCommand}" Text="Close" />
+                        <CollectionView
+                            Background="Transparent"
+                            HorizontalOptions="CenterAndExpand"
+                            ItemsSource="{Binding GoogleRoutes}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <CollectionView ItemsSource="{Binding legs}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <CollectionView
+                                                    Background="Transparent"
+                                                    HorizontalOptions="Center"
+                                                    ItemsLayout="HorizontalList"
+                                                    ItemsSource="{Binding steps}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <HorizontalStackLayout>
+                                                                <Frame Padding="10" BackgroundColor="LightGoldenrodYellow">
+                                                                    <Grid RowDefinitions="Auto,Auto">
+                                                                        <Label
+                                                                            Grid.Row="0"
+                                                                            Text="{Binding transitDetails.stopDetails.departureStop.name}"
+                                                                            TextColor="Black" />
+                                                                        <Label
+                                                                            Grid.Row="1"
+                                                                            Text="{Binding transitDetails.localizedValues.departureTime.time.text}"
+                                                                            TextColor="Black" />
+                                                                    </Grid>
+                                                                </Frame>
+                                                                <ImageButton Padding="5">
+                                                                    <ImageButton.Source>
+                                                                        <FontImageSource
+                                                                            FontFamily="FRF"
+                                                                            Glyph="{StaticResource arrow}"
+                                                                            Color="black" />
+                                                                    </ImageButton.Source>
+                                                                </ImageButton>
+                                                                <Frame Padding="10" BackgroundColor="LightBlue">
+                                                                    <Grid RowDefinitions="Auto,Auto">
+                                                                        <Label
+                                                                            Grid.Row="0"
+                                                                            HorizontalOptions="Center"
+                                                                            Text="{Binding transitDetails.headsign}"
+                                                                            TextColor="Black" />
+                                                                        <Label
+                                                                            Grid.Row="1"
+                                                                            HorizontalOptions="Center"
+                                                                            Text="{Binding transitDetails.transitLine.nameShort, StringFormat='Bus - {0}'}"
+                                                                            TextColor="Black" />
+                                                                    </Grid>
+                                                                </Frame>
+                                                                <ImageButton Padding="5">
+                                                                    <ImageButton.Source>
+                                                                        <FontImageSource
+                                                                            FontFamily="FRF"
+                                                                            Glyph="{StaticResource arrow}"
+                                                                            Color="black" />
+                                                                    </ImageButton.Source>
+                                                                </ImageButton>
+                                                                <Frame Padding="10" BackgroundColor="LightGoldenrodYellow">
+                                                                    <Grid RowDefinitions="Auto,Auto">
+                                                                        <Label
+                                                                            Grid.Row="0"
+                                                                            Text="{Binding transitDetails.stopDetails.arrivalStop.name}"
+                                                                            TextColor="Black" />
+                                                                        <Label
+                                                                            Grid.Row="1"
+                                                                            Text="{Binding transitDetails.localizedValues.arrivalTime.time.text}"
+                                                                            TextColor="Black" />
+                                                                    </Grid>
+                                                                </Frame>
+                                                            </HorizontalStackLayout>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
             </Grid>
         </Grid>
     </Grid>

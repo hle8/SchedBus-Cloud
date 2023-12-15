@@ -6,10 +6,11 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
              BackgroundColor="Black"
+             Padding="10"
              Shell.NavBarIsVisible="false">
     <ContentPage.Resources>
-        <x:String x:Key="plus">+</x:String>
-        <x:String x:Key="map">?</x:String>
+        <x:String x:Key="plus">&#x2b;</x:String>
+        <x:String x:Key="map">&#xf279;</x:String>
     </ContentPage.Resources>
     <ContentPage.BindingContext>
         <viewmodel:PlanEditViewModel />
@@ -198,7 +199,8 @@
                                TextColor="Wheat" />
                     </Grid>
                 </Border>
-                <Grid>
+                <Grid
+                    ColumnSpacing="30">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />

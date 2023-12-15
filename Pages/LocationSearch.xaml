@@ -23,15 +23,23 @@
                 Grid.Row="0"
                 Padding="20"
                 VerticalOptions="Start">
-                <SearchBar
+                <Border
+                    WidthRequest="270"
+                    BackgroundColor="LightGoldenrodYellow">
+                    <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <SearchBar
                     x:Name="searchBar"
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
-                    Background="Orange"
-                    Placeholder="Search"
+                    Placeholder="Where are you heading?"
+                    
+                    BackgroundColor="Transparent"
                     SearchCommand="{Binding GetPlacesCommand}"
                     SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                     Text="{Binding SearchResult}" />
+                </Border>
                 <CollectionView
                     x:Name="searchResults"
                     Background="Snow"
@@ -71,12 +79,16 @@
                 VerticalOptions="End">
                 <Button
                     Grid.Column="0"
+                    WidthRequest="120"
+                    HorizontalOptions="End"
                     Background="Silver"
                     Command="{Binding BackCommand}"
                     Text="Back"
                     TextColor="Black" />
                 <Button
                     Grid.Column="1"
+                    WidthRequest="120"
+                    HorizontalOptions="Start"
                     Background="Orange"
                     Command="{Binding SaveCommand}"
                     Text="Save" />

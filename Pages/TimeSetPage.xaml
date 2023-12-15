@@ -1,245 +1,271 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ContentPage x:Class="SchedBus.Pages.TimeSetPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sc="clr-namespace:Spinner.MAUI;assembly=Spinner.MAUI"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
-             BackgroundColor="Black"
-             Shell.NavBarIsVisible="false">
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SchedBus.Pages.TimeSetPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sc="clr-namespace:Spinner.MAUI;assembly=Spinner.MAUI"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
+    BackgroundColor="Black"
+    Shell.NavBarIsVisible="false">
     <ContentPage.BindingContext>
         <viewmodel:TimeSetViewModel />
     </ContentPage.BindingContext>
     <ScrollView>
-        <VerticalStackLayout Padding="10"
-                             Spacing="10">
-            <Label FontAttributes="Bold"
-                   FontSize="20"
-                   Text="Choose your time"
-                   TextColor="Wheat" />
-            <Border BackgroundColor="Transparent"
-                    HeightRequest="125"
-                    Stroke="Orange">
+        <VerticalStackLayout Padding="10" Spacing="10">
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Choose your time"
+                TextColor="Wheat" />
+            <Border
+                BackgroundColor="Transparent"
+                HeightRequest="125"
+                Stroke="Orange">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="40,40,40,40" />
                 </Border.StrokeShape>
-                <TimePicker FontAttributes="Bold"
-                            FontSize="60"
-                            Format="hh:mm tt"
-                            HorizontalOptions="CenterAndExpand"
-                            TextColor="Wheat"
-                            Time="{Binding TimeSet.Time}"
-                            VerticalOptions="Center" />
+                <TimePicker
+                    FontAttributes="Bold"
+                    FontSize="60"
+                    Format="hh:mm tt"
+                    HorizontalOptions="CenterAndExpand"
+                    TextColor="Wheat"
+                    Time="{Binding TimeSet.Time}"
+                    VerticalOptions="Center" />
             </Border>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        VerticalOptions="Center"
-                        WidthRequest="150">
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    VerticalOptions="Center"
+                    WidthRequest="150">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="40,40,40,40" />
                     </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Monday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnMonday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        WidthRequest="150">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Tuesday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnTuesday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        WidthRequest="150">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Wednesday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnWednesday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        WidthRequest="150">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Thursday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnThursday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        WidthRequest="150">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Friday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnFriday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        WidthRequest="150">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Saturday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnSaturday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        HeightRequest="60"
-                        HorizontalOptions="End"
-                        Stroke="Orange"
-                        WidthRequest="150">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="40,40,40,40" />
-                    </Border.StrokeShape>
-                    <Label FontAttributes="Bold"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Text="Sunday"
-                           TextColor="Wheat"
-                           VerticalOptions="Center" />
-                </Border>
-                <Switch Grid.Column="1"
-                        HorizontalOptions="CenterAndExpand"
-                        IsToggled="{Binding TimeSet.RepeatedOnSunday}"
-                        OnColor="Orange"
-                        ThumbColor="Green" />
-            </Grid>
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                        BackgroundColor="LightSlateGray"
-                        Command="{Binding DeleteTimesetCommand}"
+                    <Label
                         FontAttributes="Bold"
-                        FontSize="16"
-                        Text="Delete"
-                        TextColor="Black" />
-                <Button Grid.Column="1"
-                        BackgroundColor="LightGreen"
-                        Command="{Binding SaveTimesetCommand}"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Monday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnMonday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    WidthRequest="150">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Label
                         FontAttributes="Bold"
-                        FontSize="16"
-                        Text="Save"
-                        TextColor="Black" />
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Tuesday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnTuesday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    WidthRequest="150">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Wednesday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnWednesday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    WidthRequest="150">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Thursday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnThursday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    WidthRequest="150">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Friday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnFriday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    WidthRequest="150">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Saturday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnSaturday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="Orange"
+                    WidthRequest="150">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="40,40,40,40" />
+                    </Border.StrokeShape>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalTextAlignment="Center"
+                        Text="Sunday"
+                        TextColor="Wheat"
+                        VerticalOptions="Center" />
+                </Border>
+                <Switch
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    IsToggled="{Binding TimeSet.RepeatedOnSunday}"
+                    OnColor="Orange"
+                    ThumbColor="Green" />
+            </Grid>
+            <Grid ColumnSpacing="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="LightSlateGray"
+                    Command="{Binding DeleteTimesetCommand}"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="Delete"
+                    TextColor="Black" />
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="LightGreen"
+                    Command="{Binding SaveTimesetCommand}"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="Save"
+                    TextColor="Black" />
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
