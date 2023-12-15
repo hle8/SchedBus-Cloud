@@ -13,7 +13,7 @@ SchedBus makes it easier to find the best bus routes to your workplaces, schools
 - [Google Maps APIs](https://developers.google.com/maps)
 - [Firebase](http://firebase.google.com/)
 - [SQLite](https://www.nuget.org/packages/sqlite-net-pcl/)
-## Branch Plan
+## Branch Flow
 ```mermaid
 gitGraph
     commit id: "Created the project"
@@ -36,4 +36,5 @@ gitGraph
     checkout map-page
     commit id: "Added Google Maps API"
     commit id: "Added map view to Home Page"
+    merge main
 ```

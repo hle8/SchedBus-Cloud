@@ -1,19 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="SchedBus.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:page="clr-namespace:SchedBus.Pages"
-    Title="SchedBus"
-    Shell.FlyoutBehavior="Disabled">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell x:Class="SchedBus.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:page="clr-namespace:SchedBus.Pages"
+       Title="SchedBus"
+       Shell.FlyoutBehavior="Disabled">
     <TabBar>
-        <Tab Title="Home" Icon="home.png">
+        <Tab Title="Home"
+             Icon="home.png"
+             Route="home">
             <ShellContent ContentTemplate="{DataTemplate page:HomePage}" />
         </Tab>
-        <Tab Title="Plans" Icon="ballot.png">
-            <ShellContent ContentTemplate="{DataTemplate page:PlanPage}" />
+        <Tab Title="Plans"
+             Icon="ballot.png"
+             Route="plans">
+            <ShellContent ContentTemplate="{DataTemplate page:PlanEditPage}" />
         </Tab>
     </TabBar>
-
 </Shell>

@@ -3,61 +3,152 @@ using CommunityToolkit.Mvvm.Input;
 using SchedBus.Models;
 using SchedBus.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace SchedBus.ViewModels;
 
-internal class PlanEditViewModel : ObservableObject, IQueryAttributable
+public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
 {
-    Plan _plan;
+    protected static PlanSQLiteService Database => PlanSQLiteService.Instance;
+    protected static GoogleMapsApiService GoogleMapsApi => GoogleMapsApiService.Instance;
 
-    public ObservableCollection<TimeSetViewModel> TimeSet { get; set; }
-    public int Id { get => _plan.Id; set => _plan.Id = value; }
-    public string Label { get => _plan.Label; set => _plan.Label = value; }
-    public int MaxNumberOfRoutes { get => _plan.MaxNumberOfRoutes; set => _plan.MaxNumberOfRoutes = value; }
-    public bool Vibration { get => _plan.Vibration; set => _plan.Vibration = value; }
-    public bool Notification { get => _plan.Notification; set => _plan.Notification = value; }
+    [ObservableProperty]
+    public ObservableCollection<GooglePlacesApi.Place> googlePlaces;
 
-    public IDataStore SqliteDataStore => DependencyService.Get<IDataStore>();
-
-    public ICommand SaveCommand { set; get; }
-    public ICommand DeleteCommand { set; get; }
+    [ObservableProperty]
+    public Plan plan;
 
     public PlanEditViewModel()
     {
-        _plan = new Plan();
-        TimeSet = new ObservableCollection<TimeSetViewModel>();
-        SaveCommand = new AsyncRelayCommand(Save);
-        DeleteCommand = new AsyncRelayCommand(Delete);
+        Plan = new Plan();
+        GooglePlaces = new ObservableCollection<GooglePlacesApi.Place>();
     }
 
-    public PlanEditViewModel(Plan plan) => _plan = plan;
-
-    async void IQueryAttributable.ApplyQueryAttributes(System.Collections.Generic.IDictionary<string, object> query)
+    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (!query.ContainsKey("id")) return;
-
-        var id = Convert.ToInt32(query["id"].ToString);
-        _plan = await SqliteDataStore.GetPlanAsync(id);
-
-        OnPropertyChanged(nameof(Id));
-        OnPropertyChanged(nameof(Label));
-        OnPropertyChanged(nameof(MaxNumberOfRoutes));
-        OnPropertyChanged(nameof(Vibration));
-        OnPropertyChanged(nameof(Notification));
+        if (query.ContainsKey("selectedPlan"))
+        {
+            Plan = query["selectedPlan"] as Plan;
+        }
+        else if (query.ContainsKey("saveTimeset"))
+        {
+            int index = 0;
+            var timeset = query["saveTimeset"] as TimeSet;
+            if (timeset.Id != 0)
+            {
+                foreach (var item in Plan.TimeSets)
+                {
+                    if (item.Id == timeset.Id)
+                    {
+                        index = Plan.TimeSets.IndexOf(item);
+                        break;
+                    }
+                }
+                Plan.TimeSets[index] = timeset;
+            }
+            else
+            {
+                if (Plan.TimeSets.Any(i => i.Time == timeset.Time))
+                {
+                    Console.WriteLine("Duplicated Time! Cannot Save");
+                }
+                else
+                {
+                    Plan.TimeSets.Add(timeset);
+                }
+            }
+        }
+        else if (query.ContainsKey("deleteTimeset"))
+        {
+            var timeset = query["deleteTimeset"] as TimeSet;
+            if (timeset.Id != 0)
+            {
+                if (Plan.TimeSets.Count > 0)
+                {
+                    foreach (var item in Plan.TimeSets)
+                    {
+                        if (item.Id == timeset.Id)
+                        {
+                            Plan.TimeSets.Remove(item);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (query.ContainsKey("destination"))
+        {
+            Plan.Destination = query["destination"] as Destination;
+        }
     }
 
-    public async Task Save()
+    [RelayCommand]
+    public async Task GetPlaces(string text)
     {
-        await SqliteDataStore.SavePlanAsync(_plan);
-
-        await Shell.Current.GoToAsync($"..");
+        if (string.IsNullOrEmpty(text))
+        {
+            GooglePlaces.Clear();
+        }
+        else
+        {
+            GooglePlaces = await GoogleMapsApi.RequestPlaces(text);
+        }
     }
 
-    public async Task Delete()
+    [RelayCommand]
+    public void SelectPlace(GooglePlacesApi.Place place)
     {
-        await SqliteDataStore.RemovePlanAsync(_plan.Id);
+        Plan.Destination.Name = place.displayName.text;
+        Plan.Destination.Address = place.formattedAddress;
+        Plan.Destination.Latitude = place.location.latitude;
+        Plan.Destination.Longitude = place.location.longitude;
 
-        await Shell.Current.GoToAsync($"..");
+        GooglePlaces.Clear();
+    }
+
+    [RelayCommand]
+    public async Task SearchByMap()
+    {
+        await Shell.Current.GoToAsync($"{nameof(Pages.LocationSearch)}");
+    }
+
+    [RelayCommand]
+    public async Task AddTimeSet()
+    {
+        await Shell.Current.GoToAsync($"{nameof(Pages.TimeSetPage)}");
+    }
+
+    [RelayCommand]
+    public async Task SelectTimeset(TimeSet timset)
+    {
+        var navigationParameter = new Dictionary<string, object>() { { "selectedTimeset", timset } };
+        await Shell.Current.GoToAsync($"{nameof(Pages.TimeSetPage)}", navigationParameter);
+    }
+
+    [RelayCommand]
+    public async Task SavePlan()
+    {
+        if (Plan.Destination != null)
+        {
+            await Database.SavePlanAsync(Plan);
+            await Shell.Current.GoToAsync($"..");
+        }
+        else
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
+    }
+
+    [RelayCommand]
+    public async Task DeletePlan()
+    {
+        if( Plan.Id != 0 )
+        {
+            await Database.DeletePlanAsync(Plan);
+            await Shell.Current.GoToAsync($"..");
+        }
+        else
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
     }
 }
