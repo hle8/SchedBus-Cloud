@@ -9,8 +9,6 @@ namespace SchedBus
         {
             InitializeComponent();
 
-            DependencyService.Register<PlanDataService>();
-
             MainPage = new AppShell();
         }
     }
