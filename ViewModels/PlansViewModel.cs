@@ -13,6 +13,9 @@ public partial class PlansViewModel : ObservableObject
     [ObservableProperty]
     public ObservableCollection<Plan> plans;
 
+    [ObservableProperty]
+    bool isRefreshingPlans;
+
     public PlansViewModel()
     {
         Plans = new ObservableCollection<Plan>();
@@ -23,6 +26,7 @@ public partial class PlansViewModel : ObservableObject
     {
         Plans = await Database.GetPlansAsync();
         var todayDate = DateTime.Now;
+        IsRefreshingPlans = false;
     }
 
     [RelayCommand]

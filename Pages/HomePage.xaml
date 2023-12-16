@@ -25,7 +25,17 @@
             x:Name="map"
             Grid.Row="0"
             IsShowingUser="True"
-            MapType="Street" />
+            ItemsSource="{Binding Destinations}"
+            MapType="Street">
+            <map:Map.ItemTemplate>
+                <DataTemplate>
+                    <map:Pin
+                        Address="{Binding Address}"
+                        Label="{Binding Name}"
+                        Location="{Binding Location}" />
+                </DataTemplate>
+            </map:Map.ItemTemplate>
+        </map:Map>
         <Grid RowDefinitions="*,*">
             <VerticalStackLayout
                 Grid.Row="0"
@@ -40,13 +50,19 @@
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
                         Background="LightGoldenrodYellow"
+                        IsEnabled="{Binding IsSearchBarEnabled}"
                         Placeholder="Where are you heading?"
-                        SearchCommand="{Binding GetPlacesCommand}"
-                        SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                         Text="{Binding SearchResult}"
                         TextColor="Black"
                         VerticalOptions="StartAndExpand"
-                        WidthRequest="280" />
+                        WidthRequest="280">
+                        <SearchBar.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                Command="{Binding GetPlacesCommand}"
+                                CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                                EventName="TextChanged" />
+                        </SearchBar.Behaviors>
+                    </SearchBar>
                 </Border>
                 <CollectionView
                     Background="Snow"
@@ -79,48 +95,63 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
-            <Grid
+            <Frame
                 Grid.Row="1"
-                IsVisible="{Binding IsPlansViewEnabled}"
+                Padding="10"
+                HorizontalOptions="CenterAndExpand"
                 VerticalOptions="End">
-                <CollectionView
-                    Background="Snow"
-                    ItemsSource="{Binding Plans}"
-                    MaximumHeightRequest="250"
-                    SelectionChangedCommand="{Binding SelectPlanCommand}"
-                    SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
-                    SelectionMode="Single">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <Frame BackgroundColor="LightGoldenrodYellow">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <Label
-                                            Grid.Column="0"
-                                            FontSize="18"
-                                            Text="{Binding Destination.Name}"
-                                            TextColor="Black" />
-                                        <Label Grid.Column="1" Text="{Binding TodayDate}" />
-                                    </Grid>
-                                </Frame>
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
-            <Grid
+                <VerticalStackLayout>
+                    <Label
+                        Grid.Row="0"
+                        FontSize="Large"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Saved Plans"
+                        TextColor="Black" />
+                    <CollectionView
+                        Grid.Row="1"
+                        Background="Transparent"
+                        EmptyView="No plan here, Go to [Plan] tab to add"
+                        ItemsSource="{Binding Plans}"
+                        MaximumHeightRequest="250"
+                        SelectionChangedCommand="{Binding SelectPlanCommand}"
+                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                        SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout>
+                                    <Frame Padding="20" BackgroundColor="LightGoldenrodYellow">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                Grid.Column="0"
+                                                FontSize="18"
+                                                Text="{Binding Destination.Name}"
+                                                TextColor="Black" />
+                                            <Label Grid.Column="1" Text="{Binding TodayDate}" />
+                                        </Grid>
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+            <Frame
                 Grid.Row="1"
+                Padding="5"
                 IsVisible="{Binding IsRoutesViewEnabled}"
                 VerticalOptions="End">
-                <Frame Padding="5">
+                <RefreshView Command="{Binding RefreshRoutesCommand}" IsRefreshing="{Binding IsRefreshingRoutes}">
                     <VerticalStackLayout Background="WhiteSmoke" Spacing="5">
-                        <Button Command="{Binding CloseRouteListCommand}" Text="Close" />
+                        <Button
+                            Command="{Binding CloseRouteListCommand}"
+                            FontAttributes="Bold"
+                            Text="Done" />
                         <CollectionView
                             Background="Transparent"
-                            HorizontalOptions="CenterAndExpand"
-                            ItemsSource="{Binding GoogleRoutes}">
+                            ItemsSource="{Binding GoogleRoutes}"
+                            VerticalOptions="End">
                             <CollectionView.ItemsLayout>
-                                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                                <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -147,14 +178,19 @@
                                                                             TextColor="Black" />
                                                                     </Grid>
                                                                 </Frame>
-                                                                <ImageButton Padding="5">
-                                                                    <ImageButton.Source>
-                                                                        <FontImageSource
-                                                                            FontFamily="FRF"
-                                                                            Glyph="{StaticResource arrow}"
-                                                                            Color="black" />
-                                                                    </ImageButton.Source>
-                                                                </ImageButton>
+                                                                <Frame
+                                                                    Padding="5"
+                                                                    Background="Transparent"
+                                                                    BorderColor="Transparent">
+                                                                    <ImageButton>
+                                                                        <ImageButton.Source>
+                                                                            <FontImageSource
+                                                                                FontFamily="FRF"
+                                                                                Glyph="{StaticResource arrow}"
+                                                                                Color="black" />
+                                                                        </ImageButton.Source>
+                                                                    </ImageButton>
+                                                                </Frame>
                                                                 <Frame Padding="10" BackgroundColor="LightBlue">
                                                                     <Grid RowDefinitions="Auto,Auto">
                                                                         <Label
@@ -169,14 +205,19 @@
                                                                             TextColor="Black" />
                                                                     </Grid>
                                                                 </Frame>
-                                                                <ImageButton Padding="5">
-                                                                    <ImageButton.Source>
-                                                                        <FontImageSource
-                                                                            FontFamily="FRF"
-                                                                            Glyph="{StaticResource arrow}"
-                                                                            Color="black" />
-                                                                    </ImageButton.Source>
-                                                                </ImageButton>
+                                                                <Frame
+                                                                    Padding="5"
+                                                                    Background="Transparent"
+                                                                    BorderColor="Transparent">
+                                                                    <ImageButton>
+                                                                        <ImageButton.Source>
+                                                                            <FontImageSource
+                                                                                FontFamily="FRF"
+                                                                                Glyph="{StaticResource arrow}"
+                                                                                Color="black" />
+                                                                        </ImageButton.Source>
+                                                                    </ImageButton>
+                                                                </Frame>
                                                                 <Frame Padding="10" BackgroundColor="LightGoldenrodYellow">
                                                                     <Grid RowDefinitions="Auto,Auto">
                                                                         <Label
@@ -198,10 +239,26 @@
                                     </CollectionView>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <ContentView>
+                                    <Grid>
+                                        <Label
+                                            FontSize="Large"
+                                            HorizontalOptions="Center"
+                                            IsVisible="{Binding IsGettingRoutes}"
+                                            Text="Getting available routes" />
+                                        <Label
+                                            FontSize="Large"
+                                            HorizontalOptions="Center"
+                                            IsVisible="{Binding DisplayNoRouteFound}"
+                                            Text="No route found, swipedown to refresh" />
+                                    </Grid>
+                                </ContentView>
+                            </CollectionView.EmptyView>
                         </CollectionView>
                     </VerticalStackLayout>
-                </Frame>
-            </Grid>
+                </RefreshView>
+            </Frame>
         </Grid>
     </Grid>
 </ContentPage>

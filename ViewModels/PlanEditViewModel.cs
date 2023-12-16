@@ -28,11 +28,13 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
         if (query.ContainsKey("selectedPlan"))
         {
             Plan = query["selectedPlan"] as Plan;
+            query.Clear();
         }
         else if (query.ContainsKey("saveTimeset"))
         {
             int index = 0;
             var timeset = query["saveTimeset"] as TimeSet;
+            query.Clear();
             if (timeset.Id != 0)
             {
                 foreach (var item in Plan.TimeSets)
@@ -44,6 +46,7 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
                     }
                 }
                 Plan.TimeSets[index] = timeset;
+                OnPropertyChanged(nameof(Plan));
             }
             else
             {
@@ -55,11 +58,13 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
                 {
                     Plan.TimeSets.Add(timeset);
                 }
+                OnPropertyChanged(nameof(Plan));
             }
         }
         else if (query.ContainsKey("deleteTimeset"))
         {
             var timeset = query["deleteTimeset"] as TimeSet;
+            query.Clear();
             if (timeset.Id != 0)
             {
                 if (Plan.TimeSets.Count > 0)
@@ -69,6 +74,7 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
                         if (item.Id == timeset.Id)
                         {
                             Plan.TimeSets.Remove(item);
+                            OnPropertyChanged(nameof(Plan));
                             break;
                         }
                     }
@@ -78,6 +84,8 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
         else if (query.ContainsKey("destination"))
         {
             Plan.Destination = query["destination"] as Destination;
+            query.Clear();
+            OnPropertyChanged(nameof(Plan));
         }
     }
 
@@ -101,6 +109,8 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
         Plan.Destination.Address = place.formattedAddress;
         Plan.Destination.Latitude = place.location.latitude;
         Plan.Destination.Longitude = place.location.longitude;
+
+        OnPropertyChanged(nameof(Plan));
 
         GooglePlaces.Clear();
     }

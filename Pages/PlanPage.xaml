@@ -22,73 +22,75 @@
     </ContentPage.Behaviors>
     <ContentPage.Content>
         <Grid RowDefinitions="*,Auto">
-            <CollectionView
-                x:Name="PlanList"
-                EmptyView="No plan here, tap (+) button to add"
-                ItemsSource="{Binding Plans}"
-                SelectionMode="Single">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:Plan">
-                        <SwipeView>
-                            <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem
-                                        BackgroundColor="Red"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=DeletePlanCommand}"
-                                        CommandParameter="{Binding .}"
-                                        Text="Delete" />
-                                </SwipeItems>
-                            </SwipeView.RightItems>
-                            <Frame
-                                Padding="0"
-                                BackgroundColor="Transparent"
-                                BorderColor="Orange"
-                                CornerRadius="10"
-                                HasShadow="True">
-                                <Grid
-                                    Padding="15"
-                                    ColumnDefinitions="*,Auto,Auto"
-                                    ColumnSpacing="10"
-                                    RowDefinitions="Auto,Auto">
-                                    <Label
-                                        Grid.Row="0"
-                                        FontSize="25"
-                                        Text="{Binding Label}"
-                                        TextColor="Wheat" />
-                                    <Label
-                                        Grid.Row="1"
-                                        FontSize="15"
-                                        Text="{Binding Id}"
-                                        TextColor="Wheat" />
-                                    <ImageButton
-                                        Grid.RowSpan="2"
-                                        Grid.Column="1"
-                                        Padding="3"
-                                        Aspect="AspectFit"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=EditPlanCommand}"
-                                        CommandParameter="{Binding .}"
-                                        HeightRequest="40"
-                                        WidthRequest="40">
-                                        <ImageButton.Source>
-                                            <FontImageSource
-                                                FontFamily="FRF"
-                                                Glyph="{StaticResource pen}"
-                                                Color="Orange" />
-                                        </ImageButton.Source>
-                                    </ImageButton>
-                                    <Switch
-                                        Grid.RowSpan="2"
-                                        Grid.Column="2"
-                                        IsToggled="{Binding Notification}" />
-                                </Grid>
-                            </Frame>
-                        </SwipeView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <RefreshView Command="{Binding GetPlanCommand}" IsRefreshing="{Binding IsRefreshingPlans}">
+                <CollectionView
+                    x:Name="PlanList"
+                    EmptyView="No plan here, tap (+) button to add"
+                    ItemsSource="{Binding Plans}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Plan">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="Red"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=DeletePlanCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Delete" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Frame
+                                    Padding="0"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="Orange"
+                                    CornerRadius="10"
+                                    HasShadow="True">
+                                    <Grid
+                                        Padding="15"
+                                        ColumnDefinitions="*,Auto,Auto"
+                                        ColumnSpacing="10"
+                                        RowDefinitions="Auto,Auto">
+                                        <Label
+                                            Grid.Row="0"
+                                            FontSize="25"
+                                            Text="{Binding Label}"
+                                            TextColor="Wheat" />
+                                        <Label
+                                            Grid.Row="1"
+                                            FontSize="15"
+                                            Text="{Binding Id}"
+                                            TextColor="Wheat" />
+                                        <ImageButton
+                                            Grid.RowSpan="2"
+                                            Grid.Column="1"
+                                            Padding="3"
+                                            Aspect="AspectFit"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=EditPlanCommand}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="40"
+                                            WidthRequest="40">
+                                            <ImageButton.Source>
+                                                <FontImageSource
+                                                    FontFamily="FRF"
+                                                    Glyph="{StaticResource pen}"
+                                                    Color="Orange" />
+                                            </ImageButton.Source>
+                                        </ImageButton>
+                                        <Switch
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            IsToggled="{Binding Notification}" />
+                                    </Grid>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
             <ImageButton
                 x:Name="AddPlanButton"
                 Grid.Row="1"

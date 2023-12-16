@@ -31,7 +31,25 @@ public partial class HomePageViewModel : ObservableObject
     bool isPlansViewEnabled;
 
     [ObservableProperty]
+    bool isGettingRoutes;
+
+    [ObservableProperty]
+    bool displayNoRouteFound;
+
+    [ObservableProperty]
     bool isRoutesViewEnabled;
+
+    [ObservableProperty]
+    bool isRefreshingRoutes;
+
+    [ObservableProperty]
+    double latitude;
+
+    [ObservableProperty]
+    double longitude;
+
+    [ObservableProperty]
+    ObservableCollection<Destination> destinations;
 
     Destination Destination { get; set; }
 
@@ -43,6 +61,7 @@ public partial class HomePageViewModel : ObservableObject
         IsRoutesViewEnabled = false;
         GooglePlaces = new ObservableCollection<GooglePlacesApi.Place>();
         Plans = new ObservableCollection<Plan>();
+        Destinations = new ObservableCollection<Destination>();
         Destination = new Destination();
     }
 
@@ -60,13 +79,23 @@ public partial class HomePageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void SelectPlace(GooglePlacesApi.Place place)
+    public async Task SelectPlace(GooglePlacesApi.Place place)
     {
         SearchResult = place.displayName.text;
 
+        Destinations.Clear();
+
+        Destination.Name = place.displayName.text;
+        Destination.Address = place.formattedAddress;
+        Destination.Latitude = place.location.latitude;
+        Destination.Longitude = place.location.longitude;
+        Destination.Location = new Location(place.location.latitude, place.location.longitude);
+
+        Destinations.Add(Destination);
+
         GooglePlaces.Clear();
 
-        GetRoutes(place.formattedAddress, place.location.latitude, place.location.longitude);
+        await GetRoutes(place.location.latitude, place.location.longitude);
     }
 
     [RelayCommand]
@@ -78,19 +107,33 @@ public partial class HomePageViewModel : ObservableObject
     [RelayCommand]
     public async Task SelectPlan(Plan plan)
     {
-        GetRoutes(plan.Destination.Address, plan.Destination.Latitude, plan.Destination.Longitude);
+        await GetRoutes(plan.Destination.Latitude, plan.Destination.Longitude);
     }
 
-    public async void GetRoutes(string address, double latitude, double longitude)
+    [RelayCommand]
+    public async Task RefreshRoutes()
     {
+        await GetRoutes(Destination.Latitude, Destination.Longitude);
+        IsRefreshingRoutes = false;
+    }
+
+    public async Task GetRoutes(double latitude, double longitude)
+    {
+        DisplayNoRouteFound = false;
+        IsGettingRoutes = true;
+        IsPlansViewEnabled = false;
+        IsRoutesViewEnabled = true;
+
         await GetCurrentLocation();
+
         GoogleRoutesApi.InputPlace origin = new GoogleRoutesApi.InputPlace
         {
             location = new GoogleRoutesApi.Location
             {
                 latLng = new GoogleRoutesApi.LatLng
                 {
-                    latitude = location.Latitude, longitude = location.Longitude
+                    latitude = location.Latitude, 
+                    longitude = location.Longitude
                 }
             }
         };
@@ -107,17 +150,22 @@ public partial class HomePageViewModel : ObservableObject
         };
         GoogleRoutes = await GoogleMapsApi.RequestRoutes(origin, destination);
 
-        GoogleRoutes = GoogleRoutes.Where(i => i.legs != null).ToObservableCollection();
-        foreach (var route in GoogleRoutes)
+        if (GoogleRoutes != null)
         {
-            foreach (var leg in route.legs)
+            GoogleRoutes = GoogleRoutes.Where(i => i.legs != null).ToObservableCollection();
+            foreach (var route in GoogleRoutes)
             {
-                leg.steps = leg.steps.Where(i=>i.transitDetails != null).ToList();
+                foreach (var leg in route.legs)
+                {
+                    leg.steps = leg.steps.Where(i => i.transitDetails != null).ToList();
+                }
             }
         }
-
-        IsPlansViewEnabled = false;
-        IsRoutesViewEnabled = true;
+        else
+        {
+            IsGettingRoutes = false;
+            DisplayNoRouteFound = !IsGettingRoutes;
+        }
     }
 
     [RelayCommand]

@@ -20,11 +20,15 @@ public partial class LocationSearchViewModel : ObservableObject
     [ObservableProperty]
     string? searchResult;
 
+    [ObservableProperty]
+    ObservableCollection<Destination> destinations;
+
     Destination Destination { get; set; }
 
     public LocationSearchViewModel()
     {
         GooglePlaces = new ObservableCollection<GooglePlacesApi.Place>();
+        Destinations = new ObservableCollection<Destination>();
         Destination = new Destination();
     }
 
@@ -46,10 +50,15 @@ public partial class LocationSearchViewModel : ObservableObject
     {
         SearchResult = place.displayName.text;
 
+        Destinations.Clear();
+
         Destination.Name = place.displayName.text;
         Destination.Address = place.formattedAddress;
         Destination.Latitude = place.location.latitude;
         Destination.Longitude = place.location.longitude;
+        Destination.Location = new Location(place.location.latitude, place.location.longitude);
+
+        Destinations.Add(Destination);
 
         GooglePlaces.Clear();
     }
@@ -57,14 +66,14 @@ public partial class LocationSearchViewModel : ObservableObject
     [RelayCommand]
     public async Task Save()
     {
-        if (string.IsNullOrEmpty(SearchResult))
+        if (Destination == null)
         {
             Console.WriteLine("Alert", "Destination cannot be empty!");
             return;
         }
         else
         {
-            var navigationParameter = new Dictionary<string, object> { { "destination", Destination } };
+            var navigationParameter = new Dictionary<string, object> { { "destination", Destinations[0] } };
             await Shell.Current.GoToAsync($"..", navigationParameter);
         }
     }

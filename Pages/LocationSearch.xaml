@@ -6,6 +6,7 @@
     xmlns:map="http://schemas.microsoft.com/dotnet/2021/maui/maps"
     xmlns:model="clr-namespace:SchedBus.Models"
     xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
     Title="LocationSearch"
     Shell.NavBarIsVisible="False">
@@ -17,28 +18,40 @@
             x:Name="map"
             Grid.Row="0"
             IsShowingUser="True"
-            MapType="Street" />
+            ItemsSource="{Binding Destinations}"
+            MapType="Street">
+            <map:Map.ItemTemplate>
+                <DataTemplate>
+                    <map:Pin
+                        Address="{Binding Address}"
+                        Label="{Binding Name}"
+                        Location="{Binding Location}" />
+                </DataTemplate>
+            </map:Map.ItemTemplate>
+        </map:Map>
         <Grid RowDefinitions="*,*">
             <VerticalStackLayout
                 Grid.Row="0"
                 Padding="20"
                 VerticalOptions="Start">
-                <Border
-                    WidthRequest="270"
-                    BackgroundColor="LightGoldenrodYellow">
+                <Border BackgroundColor="LightGoldenrodYellow" WidthRequest="270">
                     <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="40,40,40,40" />
+                        <RoundRectangle CornerRadius="40,40,40,40" />
                     </Border.StrokeShape>
                     <SearchBar
-                    x:Name="searchBar"
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Placeholder="Where are you heading?"
-                    
-                    BackgroundColor="Transparent"
-                    SearchCommand="{Binding GetPlacesCommand}"
-                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
-                    Text="{Binding SearchResult}" />
+                        x:Name="searchBar"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="Transparent"
+                        Placeholder="Where are you heading?"
+                        Text="{Binding SearchResult}">
+                        <SearchBar.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                Command="{Binding GetPlacesCommand}"
+                                CommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                                EventName="TextChanged" />
+                        </SearchBar.Behaviors>
+                    </SearchBar>
                 </Border>
                 <CollectionView
                     x:Name="searchResults"
@@ -79,19 +92,19 @@
                 VerticalOptions="End">
                 <Button
                     Grid.Column="0"
-                    WidthRequest="120"
-                    HorizontalOptions="End"
                     Background="Silver"
                     Command="{Binding BackCommand}"
+                    HorizontalOptions="End"
                     Text="Back"
-                    TextColor="Black" />
+                    TextColor="Black"
+                    WidthRequest="120" />
                 <Button
                     Grid.Column="1"
-                    WidthRequest="120"
-                    HorizontalOptions="Start"
                     Background="Orange"
                     Command="{Binding SaveCommand}"
-                    Text="Save" />
+                    HorizontalOptions="Start"
+                    Text="Save"
+                    WidthRequest="120" />
             </Grid>
         </Grid>
     </Grid>

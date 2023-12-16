@@ -27,7 +27,7 @@ public partial class TimeSetViewModel : ObservableObject, IQueryAttributable
     {
         if (TimeSet != null) 
         {
-            var navigationParameter = new Dictionary<string, object> { { "deleteTimeset", TimeSet } };
+            var navigationParameter = new Dictionary<string, object> { { "saveTimeset", TimeSet } };
             await Shell.Current.GoToAsync($"..", navigationParameter);
         }
         else
@@ -41,7 +41,7 @@ public partial class TimeSetViewModel : ObservableObject, IQueryAttributable
     {
         if (TimeSet != null) 
         {
-            var navigationParameter = new Dictionary<string, object> { { "saveTimeset", TimeSet } };
+            var navigationParameter = new Dictionary<string, object> { { "deleteTimeset", TimeSet } };
             await Shell.Current.GoToAsync($"..", navigationParameter);
         }
         else

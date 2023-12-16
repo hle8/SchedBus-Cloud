@@ -34,4 +34,7 @@ public class TimeSet
 
     [ForeignKey(typeof(Plan))]
     public int PlanId { get; set; }
+
+    [Ignore]
+    public string? DisplayTime { get; set; }
 }
