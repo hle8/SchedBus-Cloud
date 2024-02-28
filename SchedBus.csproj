@@ -76,17 +76,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AathifMahir.Maui.MauiIcons.Material.Outlined" Version="2.0.0" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />
+		<PackageReference Include="AathifMahir.Maui.MauiIcons.Material.Outlined" Version="2.1.1" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.7" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.86" />
 		<PackageReference Include="Spinner.MAUI" Version="1.1.2" />
-		<PackageReference Include="SQLiteNetExtensions.Async" Version="2.1.0" />
+		<PackageReference Include="SQLite.Net.Extensions.Async" Version="3.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

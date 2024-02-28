@@ -84,7 +84,7 @@ public class PlanSQLiteService
         await Init();
 
         var result = await _database.GetAllWithChildrenAsync<Plan>(recursive: true);
-        
+
         return new ObservableCollection<Plan>(result);
     }
 
