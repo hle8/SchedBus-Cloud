@@ -26,7 +26,7 @@ public class FirestoreService
 
         Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filepath);
 
-        _firestoreDb = FirestoreDb.Create("schedbus-8560b");
+        _firestoreDb = FirestoreDb.Create("project-id");
     }
 
     public async Task<List<PlanDocument>?> GetAllPlans(string userEmail)

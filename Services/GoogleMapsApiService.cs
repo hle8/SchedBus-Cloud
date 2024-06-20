@@ -23,7 +23,7 @@ public class GoogleMapsApiService
     private GoogleMapsApiService()
     {
         _client = new HttpClient();
-        _apiKey = "AIzaSyBTZXqc28-40aOTkE_rDUFAo_r0ezidXXg";
+        _apiKey = "your-api-key";
         _placesApiUrl = "https://places.googleapis.com/v1/places:searchText";
         _routesApiUrl = "https://routes.googleapis.com/directions/v2:computeRoutes";
     }
