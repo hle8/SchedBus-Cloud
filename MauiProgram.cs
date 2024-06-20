@@ -47,16 +47,10 @@ namespace SchedBus
                 new Auth0Client(
                     new()
                     {
-                        // Domain = "<YOUR_AUTH0_DOMAIN>",
-                        // ClientId = "<YOUR_CLIENT_ID>",
-                        // RedirectUri = "myapp://callback/",
-                        // PostLogoutRedirectUri = "myapp://callback/",
-                        // Scope = "openid profile email"
-
-                        Domain = "dev-sj30op2pm8vsumhe.us.auth0.com",
-                        ClientId = "sC1fPj5YTFZAiT25wOKM81A5GpFjDXRO",
-                        RedirectUri = "myapp://callback",
-                        PostLogoutRedirectUri = "myapp://callback",
+                        Domain = "<YOUR_AUTH0_DOMAIN>",
+                        ClientId = "<YOUR_CLIENT_ID>",
+                        RedirectUri = "myapp://callback/",
+                        PostLogoutRedirectUri = "myapp://callback/",
                         Scope = "openid profile email"
                     }
                 )
