@@ -1,8 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SchedBus.Extensions;
 using SchedBus.Models;
+using SchedBus.Models.FirestoreDocuments;
 using SchedBus.Services;
-using System.Collections.ObjectModel;
 
 namespace SchedBus.ViewModels;
 
@@ -11,82 +13,23 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     protected static PlanSQLiteService Database => PlanSQLiteService.Instance;
     protected static GoogleMapsApiService GoogleMapsApi => GoogleMapsApiService.Instance;
 
-    [ObservableProperty]
-    public ObservableCollection<GooglePlacesApi.Place> googlePlaces;
+    private readonly FirestoreService _firestoreService;
+    private readonly PlansViewModel _plansViewModel;
 
     [ObservableProperty]
-    public Plan plan;
+    private ObservableCollection<GooglePlacesApi.Place>? googlePlaces;
 
-    public PlanEditViewModel()
-    {
-        Plan = new Plan();
-        GooglePlaces = new ObservableCollection<GooglePlacesApi.Place>();
-    }
+    [ObservableProperty]
+    private Plan plan = new();
 
-    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+    [ObservableProperty]
+    private PlanDocument planDocument = new();
+
+    public PlanEditViewModel(FirestoreService firestoreService, PlansViewModel plansViewModel)
     {
-        if (query.ContainsKey("selectedPlan"))
-        {
-            Plan = query["selectedPlan"] as Plan;
-            query.Clear();
-        }
-        else if (query.ContainsKey("saveTimeset"))
-        {
-            int index = 0;
-            var timeset = query["saveTimeset"] as TimeSet;
-            query.Clear();
-            if (timeset.Id != 0)
-            {
-                foreach (var item in Plan.TimeSets)
-                {
-                    if (item.Id == timeset.Id)
-                    {
-                        index = Plan.TimeSets.IndexOf(item);
-                        break;
-                    }
-                }
-                Plan.TimeSets[index] = timeset;
-                OnPropertyChanged(nameof(Plan));
-            }
-            else
-            {
-                if (Plan.TimeSets.Any(i => i.Time == timeset.Time))
-                {
-                    Console.WriteLine("Duplicated Time! Cannot Save");
-                }
-                else
-                {
-                    Plan.TimeSets.Add(timeset);
-                }
-                OnPropertyChanged(nameof(Plan));
-            }
-        }
-        else if (query.ContainsKey("deleteTimeset"))
-        {
-            var timeset = query["deleteTimeset"] as TimeSet;
-            query.Clear();
-            if (timeset.Id != 0)
-            {
-                if (Plan.TimeSets.Count > 0)
-                {
-                    foreach (var item in Plan.TimeSets)
-                    {
-                        if (item.Id == timeset.Id)
-                        {
-                            Plan.TimeSets.Remove(item);
-                            OnPropertyChanged(nameof(Plan));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        else if (query.ContainsKey("destination"))
-        {
-            Plan.Destination = query["destination"] as Destination;
-            query.Clear();
-            OnPropertyChanged(nameof(Plan));
-        }
+        _firestoreService = firestoreService;
+        _plansViewModel = plansViewModel;
+        GooglePlaces = [];
     }
 
     [RelayCommand]
@@ -94,7 +37,7 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     {
         if (string.IsNullOrEmpty(text))
         {
-            GooglePlaces.Clear();
+            GooglePlaces?.Clear();
         }
         else
         {
@@ -105,14 +48,11 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     public void SelectPlace(GooglePlacesApi.Place place)
     {
-        Plan.Destination.Name = place.displayName.text;
-        Plan.Destination.Address = place.formattedAddress;
-        Plan.Destination.Latitude = place.location.latitude;
-        Plan.Destination.Longitude = place.location.longitude;
+        PlanDocument.Destination = place.formattedAddress;
 
         OnPropertyChanged(nameof(Plan));
 
-        GooglePlaces.Clear();
+        GooglePlaces?.Clear();
     }
 
     [RelayCommand]
@@ -130,16 +70,31 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     public async Task SelectTimeset(TimeSet timset)
     {
-        var navigationParameter = new Dictionary<string, object>() { { "selectedTimeset", timset } };
+        var navigationParameter = new Dictionary<string, object>()
+        {
+            { "selectedTimeset", timset }
+        };
         await Shell.Current.GoToAsync($"{nameof(Pages.TimeSetPage)}", navigationParameter);
     }
 
     [RelayCommand]
     public async Task SavePlan()
     {
-        if (Plan.Destination != null)
+        OnPropertyChanged(nameof(PlanDocument));
+
+        if (PlanDocument.Destination != null)
         {
-            await Database.SavePlanAsync(Plan);
+            if (PlanDocument.Id == null)
+            {
+                await _firestoreService.AddPlan(PlanDocument, _plansViewModel.User.GetUserEmail());
+                _plansViewModel.RefreshPlans();
+            }
+            else
+            {
+                await _firestoreService.UpdatePlan(PlanDocument, _plansViewModel.User.GetUserEmail());
+                _plansViewModel.RefreshPlans();
+            }
+
             await Shell.Current.GoToAsync($"..");
         }
         else
@@ -151,14 +106,24 @@ public partial class PlanEditViewModel : ObservableObject, IQueryAttributable
     [RelayCommand]
     public async Task DeletePlan()
     {
-        if( Plan.Id != 0 )
+        if (PlanDocument.Id != null)
         {
-            await Database.DeletePlanAsync(Plan);
+            await _firestoreService.DeletePlan(PlanDocument.Id, _plansViewModel.User.GetUserEmail());
+            _plansViewModel.RefreshPlans();
             await Shell.Current.GoToAsync($"..");
         }
         else
         {
             await Shell.Current.GoToAsync($"..");
+        }
+    }
+
+    void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("selectedPlan", out object? value))
+        {
+            PlanDocument = (PlanDocument)value;
+            query.Clear();
         }
     }
 }

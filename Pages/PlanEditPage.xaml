@@ -3,19 +3,18 @@
     x:Class="SchedBus.Pages.PlanEditPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:firestoredocument="clr-namespace:SchedBus.Models.FirestoreDocuments"
     xmlns:model="clr-namespace:SchedBus.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
     Padding="10"
+    x:DataType="viewmodel:PlanEditViewModel"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="false">
     <ContentPage.Resources>
         <x:String x:Key="plus">&#x2b;</x:String>
         <x:String x:Key="map">&#xf279;</x:String>
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <viewmodel:PlanEditViewModel />
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
             <VerticalStackLayout Padding="10" Spacing="10">
@@ -45,14 +44,16 @@
                             x:Name="destinationEntry"
                             BackgroundColor="Transparent"
                             Placeholder="Chose Your Destination"
-                            Text="{Binding Plan.Destination.Name}"
+                            Text="{Binding PlanDocument.Destination}"
                             TextColor="Wheat">
+                            <!--
                             <Entry.Behaviors>
                                 <toolkit:EventToCommandBehavior
                                     Command="{Binding GetPlacesCommand}"
                                     CommandParameter="{Binding Text, Source={x:Reference destinationEntry}}"
                                     EventName="TextChanged" />
                             </Entry.Behaviors>
+                            -->
                         </Entry>
                     </Border>
                     <ImageButton
@@ -71,6 +72,7 @@
                         </ImageButton.Source>
                     </ImageButton>
                 </Grid>
+                <!--
                 <Grid>
                     <ListView
                         BackgroundColor="White"
@@ -78,9 +80,9 @@
                         MaximumHeightRequest="300"
                         SelectionMode="Single">
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="">
                                 <TextCell
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlanEditViewModel}}, Path=SelectPlaceCommand}"
+                                    Command="{Binding SelectPlaceCommand}"
                                     CommandParameter="{Binding .}"
                                     Detail="{Binding formattedAddress}"
                                     Text="{Binding displayName.text}" />
@@ -88,6 +90,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
+                -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="25"
@@ -172,7 +175,7 @@
                             HorizontalTextAlignment="Center"
                             Keyboard="Numeric"
                             Placeholder="Number"
-                            Text="{Binding Plan.MaxNumberOfRoutes}"
+                            Text="{Binding PlanDocument.MaxNumberOfRoutes}"
                             TextColor="Wheat" />
                     </Grid>
                 </Border>
@@ -192,7 +195,7 @@
                         <Switch
                             Grid.Column="1"
                             HorizontalOptions="Center"
-                            IsToggled="{Binding Plan.Vibration}"
+                            IsToggled="{Binding PlanDocument.Vibration}"
                             OnColor="ForestGreen"
                             ThumbColor="AntiqueWhite" />
                     </Grid>
@@ -218,7 +221,7 @@
                             HorizontalTextAlignment="Center"
                             Keyboard="Text"
                             Placeholder="Name"
-                            Text="{Binding Plan.Label}"
+                            Text="{Binding PlanDocument.Label}"
                             TextColor="Wheat" />
                     </Grid>
                 </Border>

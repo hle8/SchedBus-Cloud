@@ -1,6 +1,4 @@
-﻿using System.Runtime.Intrinsics.Arm;
-
-namespace SchedBus.Models;
+﻿namespace SchedBus.Models;
 
 public class GoogleRoutesApi
 {
@@ -111,7 +109,7 @@ public class GoogleRoutesApi
 
     public class TransitPreferences
     {
-        public string? routingPreference {  get; set; }
+        public string? routingPreference { get; set; }
         public string[]? allowedTravelModes { get; set; }
     }
 

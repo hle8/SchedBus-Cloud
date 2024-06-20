@@ -3,115 +3,124 @@
     x:Class="SchedBus.Pages.PlanPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:firestoredocument="clr-namespace:SchedBus.Models.FirestoreDocuments"
     xmlns:model="clr-namespace:SchedBus.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
-    Title="PlanPage"
+    Title="SchedBus"
     Padding="10"
+    x:DataType="viewmodel:PlansViewModel"
     BackgroundColor="Black"
-    Shell.NavBarIsVisible="false">
+    Shell.BackgroundColor="Orange"
+    Shell.NavBarIsVisible="{Binding NavBarIsVisible}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding LogoutCommand}" Text="Logout" />
+        <ToolbarItem Command="{Binding AddPlanCommand}" Text="Add plan" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <x:String x:Key="pen">&#xf044;</x:String>
         <x:String x:Key="plus">&#x2b;</x:String>
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <viewmodel:PlansViewModel />
-    </ContentPage.BindingContext>
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior Command="{Binding GetPlanCommand}" EventName="Appearing" />
-    </ContentPage.Behaviors>
     <ContentPage.Content>
-        <Grid RowDefinitions="*,Auto">
-            <RefreshView Command="{Binding GetPlanCommand}" IsRefreshing="{Binding IsRefreshingPlans}">
-                <CollectionView
-                    x:Name="PlanList"
-                    EmptyView="No plan here, tap (+) button to add"
-                    ItemsSource="{Binding Plans}"
-                    SelectionMode="Single">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Plan">
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem
-                                            BackgroundColor="Red"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=DeletePlanCommand}"
-                                            CommandParameter="{Binding .}"
-                                            Text="Delete" />
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
-                                <Frame
-                                    Padding="0"
-                                    BackgroundColor="Transparent"
-                                    BorderColor="Orange"
-                                    CornerRadius="10"
-                                    HasShadow="True">
-                                    <Grid
-                                        Padding="15"
-                                        ColumnDefinitions="*,Auto,Auto"
-                                        ColumnSpacing="10"
-                                        RowDefinitions="Auto,Auto">
-                                        <Label
-                                            Grid.Row="0"
-                                            FontSize="25"
-                                            Text="{Binding Label}"
-                                            TextColor="Wheat" />
-                                        <Label
-                                            Grid.Row="1"
-                                            FontSize="15"
-                                            Text="{Binding Id}"
-                                            TextColor="Wheat" />
-                                        <ImageButton
-                                            Grid.RowSpan="2"
-                                            Grid.Column="1"
-                                            Padding="3"
-                                            Aspect="AspectFit"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=EditPlanCommand}"
-                                            CommandParameter="{Binding .}"
-                                            HeightRequest="40"
-                                            WidthRequest="40">
-                                            <ImageButton.Source>
-                                                <FontImageSource
-                                                    FontFamily="FRF"
-                                                    Glyph="{StaticResource pen}"
-                                                    Color="Orange" />
-                                            </ImageButton.Source>
-                                        </ImageButton>
-                                        <Switch
-                                            Grid.RowSpan="2"
-                                            Grid.Column="2"
-                                            IsToggled="{Binding Notification}" />
-                                    </Grid>
-                                </Frame>
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </RefreshView>
-            <ImageButton
-                x:Name="AddPlanButton"
-                Grid.Row="1"
-                Margin="40"
-                Padding="15"
-                Aspect="AspectFit"
-                Background="Transparent"
-                BorderColor="Orange"
-                BorderWidth="1"
-                Command="{Binding AddPlanCommand}"
-                CornerRadius="20"
-                HeightRequest="50"
-                HorizontalOptions="End"
-                WidthRequest="50">
-                <ImageButton.Source>
-                    <FontImageSource
-                        FontFamily="FRF"
-                        Glyph="{StaticResource plus}"
-                        Color="Orange" />
-                </ImageButton.Source>
-            </ImageButton>
+        <Grid>
+            <VerticalStackLayout
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding LoginViewIsVisible}"
+                VerticalOptions="CenterAndExpand">
+                <Label
+                    FontSize="Title"
+                    HorizontalOptions="Center"
+                    Text="SchedBus"
+                    TextColor="Orange" />
+                <Image
+                    Margin="-110"
+                    Scale="0.4"
+                    Source="bus_school.png" />
+                <Button
+                    Command="{Binding LoginCommand}"
+                    SemanticProperties.Hint="Click to log in"
+                    Text="Sign In" />
+            </VerticalStackLayout>
+            <Grid IsVisible="{Binding PlansViewIsVisible}" RowDefinitions="*,Auto">
+                <RefreshView
+                    Command="{Binding GetPlanCommand}"
+                    HorizontalOptions="CenterAndExpand"
+                    IsRefreshing="{Binding IsRefreshingPlans}">
+                    <CollectionView
+                        x:Name="PlanList"
+                        ItemsSource="{Binding Plans}"
+                        SelectionMode="Single">
+                        <CollectionView.EmptyView>
+                            <ContentView>
+                                <VerticalStackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                    <Label Text="No plan here, tap (Add Plan) button to add" TextColor="White" />
+                                </VerticalStackLayout>
+                            </ContentView>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="firestoredocument:PlanDocument">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem
+                                                BackgroundColor="Red"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=DeletePlanCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Text="Delete" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame
+                                        Padding="0"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Orange"
+                                        CornerRadius="10"
+                                        HasShadow="True">
+                                        <Grid
+                                            Padding="15"
+                                            ColumnDefinitions="*,Auto,Auto"
+                                            ColumnSpacing="10"
+                                            RowDefinitions="Auto,Auto">
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="25"
+                                                Text="{Binding Label}"
+                                                TextColor="Wheat" />
+                                            <Label
+                                                Grid.Row="1"
+                                                FontSize="15"
+                                                Text="{Binding Destination}"
+                                                TextColor="Wheat" />
+                                            <ImageButton
+                                                Grid.RowSpan="2"
+                                                Grid.Column="1"
+                                                Padding="3"
+                                                Aspect="AspectFit"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PlansViewModel}}, Path=EditPlanCommand}"
+                                                CommandParameter="{Binding .}"
+                                                HeightRequest="40"
+                                                WidthRequest="40">
+                                                <ImageButton.Source>
+                                                    <FontImageSource
+                                                        FontFamily="FRF"
+                                                        Glyph="{StaticResource pen}"
+                                                        Color="Orange" />
+                                                </ImageButton.Source>
+                                            </ImageButton>
+                                            <Switch
+                                                Grid.RowSpan="2"
+                                                Grid.Column="2"
+                                                IsToggled="{Binding Notification}" />
+                                        </Grid>
+                                    </Frame>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

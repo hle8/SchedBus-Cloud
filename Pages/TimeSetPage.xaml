@@ -6,11 +6,9 @@
     xmlns:sc="clr-namespace:Spinner.MAUI;assembly=Spinner.MAUI"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:viewmodel="clr-namespace:SchedBus.ViewModels"
+    x:DataType="viewmodel:TimeSetViewModel"
     BackgroundColor="Black"
     Shell.NavBarIsVisible="false">
-    <ContentPage.BindingContext>
-        <viewmodel:TimeSetViewModel />
-    </ContentPage.BindingContext>
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="10">
             <Label
